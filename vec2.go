@@ -22,7 +22,7 @@ func (a Vec2) Minus(b Vec2) Vec2 {
 	return Vec2{a.X - b.X, a.Y - b.Y}
 }
 
-func (v Vec2) Scaled(f float64) Vec2 {
+func (v Vec2) ScaledBy(f float64) Vec2 {
 	return Vec2{v.X * f, v.Y * f}
 }
 
@@ -43,4 +43,10 @@ func Vec2RandNormal() Vec2 {
 
 func (v Vec2) Len2() float64 {
 	return v.X*v.X + v.Y*v.Y
+}
+
+func (v Vec2) RotatedBy(theta float64) Vec2 {
+	sin := math.Sin(theta)
+	cos := math.Cos(theta)
+	return Vec2{cos*v.X - sin*v.Y, sin*v.X + cos*v.Y}
 }

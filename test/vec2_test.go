@@ -68,7 +68,7 @@ func TestMinus(t *testing.T) {
 	}
 }
 
-func TestScaled(t *testing.T) {
+func TestScaledBy(t *testing.T) {
 	cases := []struct {
 		scalar    float64
 		v, result geom.Vec2
@@ -86,7 +86,7 @@ func TestScaled(t *testing.T) {
 	}
 	for _, c := range cases {
 		expected := c.result
-		actual := c.v.Scaled(c.scalar)
+		actual := c.v.ScaledBy(c.scalar)
 		if !vec2Identical(expected, actual) {
 			t.Errorf("%v.Scaled(%v): expected: %v, got: %v", c.v, c.scalar, expected, actual)
 		}
@@ -193,6 +193,30 @@ func TestLen2(t *testing.T) {
 		actual := c.vec.Len2()
 		if !floatIdentical(expected, actual) {
 			t.Errorf("expected: %v, got %v", expected, actual)
+		}
+	}
+}
+
+func TestRotatedBy(t *testing.T) {
+	cases := []struct{
+		theta     float64
+		v, result geom.Vec2
+	}{
+		{0, geom.Vec2{}, geom.Vec2{}},
+		{1.2, geom.Vec2{}, geom.Vec2{}},
+		{0, geom.Vec2{1, 1}, geom.Vec2{1, 1}},
+		{0, geom.Vec2{-1, -1}, geom.Vec2{-1, -1}},
+		{math.Pi * 0.5, geom.Vec2{1, 1}, geom.Vec2{-1, 1}},
+		{math.Pi * 1.0, geom.Vec2{1, 1}, geom.Vec2{-1, -1}},
+		{math.Pi * 1.5, geom.Vec2{1, 1}, geom.Vec2{1, -1}},
+		{math.Pi * 2.0, geom.Vec2{1, 1}, geom.Vec2{1, 1}},
+	}
+
+	for _, c := range cases {
+		expected := c.result
+		actual := c.v.RotatedBy(c.theta)
+		if !vec2Identical(expected, actual) {
+			t.Errorf("expected: %v, got: %v", expected, actual)
 		}
 	}
 }

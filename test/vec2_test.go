@@ -204,12 +204,12 @@ func TestRotatedBy(t *testing.T) {
 	}{
 		{0, geom.Vec2{}, geom.Vec2{}},
 		{1.2, geom.Vec2{}, geom.Vec2{}},
-		{0, geom.Vec2{1, 1}, geom.Vec2{1, 1}},
-		{0, geom.Vec2{-1, -1}, geom.Vec2{-1, -1}},
-		{math.Pi * 0.5, geom.Vec2{1, 1}, geom.Vec2{-1, 1}},
-		{math.Pi * 1.0, geom.Vec2{1, 1}, geom.Vec2{-1, -1}},
-		{math.Pi * 1.5, geom.Vec2{1, 1}, geom.Vec2{1, -1}},
-		{math.Pi * 2.0, geom.Vec2{1, 1}, geom.Vec2{1, 1}},
+		{0, geom.Vec2{1, 2}, geom.Vec2{1, 2}},
+		{0, geom.Vec2{-1, -2}, geom.Vec2{-1, -2}},
+		{math.Pi * 0.5, geom.Vec2{1, 2}, geom.Vec2{-2, 1}},
+		{math.Pi * 1.0, geom.Vec2{1, 2}, geom.Vec2{-1, -2}},
+		{math.Pi * 1.5, geom.Vec2{1, 2}, geom.Vec2{2, -1}},
+		{math.Pi * 2.0, geom.Vec2{1, 2}, geom.Vec2{1, 2}},
 	}
 
 	for _, c := range cases {

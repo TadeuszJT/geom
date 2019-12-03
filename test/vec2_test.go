@@ -16,15 +16,7 @@ func vec2Identical(a, b geom.Vec2) bool {
 	return floatIdentical(a.X, b.X) && floatIdentical(a.Y, b.Y)
 }
 
-func TestZero(t *testing.T) {
-	expected := geom.Vec2{0, 0}
-	actual := geom.Vec2{}
-	if !vec2Identical(expected, actual) {
-		t.Errorf("expected: %v, got: %v", expected, actual)
-	}
-}
-
-func TestPlus(t *testing.T) {
+func TestVec2Plus(t *testing.T) {
 	cases := []struct {
 		A, B, result geom.Vec2
 	}{
@@ -46,7 +38,7 @@ func TestPlus(t *testing.T) {
 	}
 }
 
-func TestMinus(t *testing.T) {
+func TestVec2Minus(t *testing.T) {
 	cases := []struct {
 		a, b, result geom.Vec2
 	}{
@@ -68,7 +60,7 @@ func TestMinus(t *testing.T) {
 	}
 }
 
-func TestScaledBy(t *testing.T) {
+func TestVec2ScaledBy(t *testing.T) {
 	cases := []struct {
 		scalar    float64
 		v, result geom.Vec2
@@ -93,7 +85,7 @@ func TestScaledBy(t *testing.T) {
 	}
 }
 
-func TestVec2Rand(t *testing.T) {
+func TestVec2Vec2Rand(t *testing.T) {
 	cases := []geom.Rect{
 		geom.Rect{},
 		geom.Rect{geom.Vec2{10, 10}, geom.Vec2{20, 20}},
@@ -120,7 +112,7 @@ func TestVec2Rand(t *testing.T) {
 	}
 }
 
-func TestPlusEquals(t *testing.T) {
+func TestVec2PlusEquals(t *testing.T) {
 	cases := []struct {
 		A, B, result geom.Vec2
 	}{
@@ -142,7 +134,7 @@ func TestPlusEquals(t *testing.T) {
 	}
 }
 
-func TestRandNormal(t *testing.T) {
+func TestVec2RandNormal(t *testing.T) {
 	var sections [4]bool
 
 	for i := 0; i < 100; i++ {
@@ -173,7 +165,7 @@ func TestRandNormal(t *testing.T) {
 	}
 }
 
-func TestLen2(t *testing.T) {
+func TestVec2Len2(t *testing.T) {
 	// a2 = b2 + c2
 	cases := []struct {
 		vec  geom.Vec2
@@ -197,7 +189,7 @@ func TestLen2(t *testing.T) {
 	}
 }
 
-func TestRotatedBy(t *testing.T) {
+func TestVec2RotatedBy(t *testing.T) {
 	cases := []struct{
 		theta     float64
 		v, result geom.Vec2
@@ -220,3 +212,29 @@ func TestRotatedBy(t *testing.T) {
 		}
 	}
 }
+
+func TestVec2Cross(t *testing.T) {
+	cases := []struct{
+		a, b geom.Vec2
+		result float64
+	}{
+		{geom.Vec2{}, geom.Vec2{}, 0},
+		{geom.Vec2{1, 0}, geom.Vec2{0, 1}, 1},
+		{geom.Vec2{2, 0}, geom.Vec2{0, 1}, 2},
+		{geom.Vec2{1, 0}, geom.Vec2{1, 0}, 0},
+		{geom.Vec2{-1, 0}, geom.Vec2{1, 0}, 0},
+		{geom.Vec2{1, 0}, geom.Vec2{1, 1}, 1},
+		{geom.Vec2{-1, 0}, geom.Vec2{1, -1}, 1},
+		{geom.Vec2{4, 0}, geom.Vec2{5, 5}, 20},
+		{geom.Vec2{4, -2}, geom.Vec2{3, 7}, 34},
+	}
+
+	for _, c := range cases {
+		expected := c.result
+		actual := c.a.Cross(c.b)
+		if !floatIdentical(expected, actual) {
+			t.Errorf("expected: %v, got: %v", expected, actual)
+		}
+	}
+}
+

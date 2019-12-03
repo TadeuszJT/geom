@@ -13,17 +13,31 @@ func (a Vec2) Plus(b Vec2) Vec2 {
 	return Vec2{a.X + b.X, a.Y + b.Y}
 }
 
-func (a *Vec2) PlusEquals(b Vec2) {
-	a.X += b.X
-	a.Y += b.Y
-}
-
 func (a Vec2) Minus(b Vec2) Vec2 {
 	return Vec2{a.X - b.X, a.Y - b.Y}
 }
 
+func (a Vec2) Cross(b Vec2) float64 {
+	return a.X*b.Y - a.Y*b.X
+}
+
 func (v Vec2) ScaledBy(f float64) Vec2 {
 	return Vec2{v.X * f, v.Y * f}
+}
+
+func (v Vec2) RotatedBy(radians float64) Vec2 {
+	sin := math.Sin(radians)
+	cos := math.Cos(radians)
+	return Vec2{cos*v.X - sin*v.Y, sin*v.X + cos*v.Y}
+}
+
+func (v Vec2) Len2() float64 {
+	return v.X*v.X + v.Y*v.Y
+}
+
+func (a *Vec2) PlusEquals(b Vec2) {
+	a.X += b.X
+	a.Y += b.Y
 }
 
 func Vec2Rand(r Rect) Vec2 {
@@ -41,12 +55,4 @@ func Vec2RandNormal() Vec2 {
 	}
 }
 
-func (v Vec2) Len2() float64 {
-	return v.X*v.X + v.Y*v.Y
-}
 
-func (v Vec2) RotatedBy(theta float64) Vec2 {
-	sin := math.Sin(theta)
-	cos := math.Cos(theta)
-	return Vec2{cos*v.X - sin*v.Y, sin*v.X + cos*v.Y}
-}

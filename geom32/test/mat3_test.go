@@ -129,15 +129,32 @@ func TestMat3Times(t *testing.T) {
 				7, 8, 9,
 			},
 			geom.Mat3{
-				1, 4, 9,
-				16, 25, 36,
-				49, 64, 81,
+				30, 36, 42,
+				66, 81, 96,
+				102, 126, 150,
+			},
+		},
+		{
+			geom.Mat3{
+				1, 2, 3,
+				4, 5, 6,
+				7, 8, 9,
+			},
+			geom.Mat3{
+				.1, .2, .3,
+				.4, .5, .6,
+				.7, .8, .9,
+			},
+			geom.Mat3{
+				3.0, 3.6, 4.2,
+				6.6, 8.1, 9.6,
+				10.2, 12.6, 15.0,
 			},
 		},
 	}
 
 	for _, c := range cases {
-		actual := c.a.Times(c.b)
+		actual := c.a.Product(c.b)
 		expected := c.result
 		if !mat3Identical(expected, actual) {
 			t.Errorf("a: %v Times b: %v, expected: %v, got: %v",

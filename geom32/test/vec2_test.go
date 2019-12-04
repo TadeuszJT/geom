@@ -190,7 +190,7 @@ func TestVec2Len2(t *testing.T) {
 }
 
 func TestVec2RotatedBy(t *testing.T) {
-	cases := []struct{
+	cases := []struct {
 		theta     float32
 		v, result geom.Vec2
 	}{
@@ -214,8 +214,8 @@ func TestVec2RotatedBy(t *testing.T) {
 }
 
 func TestVec2Cross(t *testing.T) {
-	cases := []struct{
-		a, b geom.Vec2
+	cases := []struct {
+		a, b   geom.Vec2
 		result float32
 	}{
 		{geom.Vec2{}, geom.Vec2{}, 0},
@@ -237,4 +237,3 @@ func TestVec2Cross(t *testing.T) {
 		}
 	}
 }
-

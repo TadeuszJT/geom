@@ -13,11 +13,11 @@ func (a Vec3) Dot(b Vec3) float64 {
 }
 
 func (a Vec3) Times(b Vec3) Vec3 {
-	return Vec3{a.X*b.X, a.Y*b.Y, a.Z*b.Z}
+	return Vec3{a.X * b.X, a.Y * b.Y, a.Z * b.Z}
 }
 
 func (v Vec3) ScaledBy(f float64) Vec3 {
-	return Vec3{f*v.X, f*v.Y, f*v.Z}
+	return Vec3{f * v.X, f * v.Y, f * v.Z}
 }
 
 func (v Vec3) Ori2() Ori2 {

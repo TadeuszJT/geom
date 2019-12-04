@@ -30,7 +30,7 @@ func TestVec3Vec2(t *testing.T) {
 }
 
 func TestVec3Dot(t *testing.T) {
-	cases := []struct{
+	cases := []struct {
 		a, b   geom.Vec3
 		result float64
 	}{
@@ -52,7 +52,7 @@ func TestVec3Dot(t *testing.T) {
 }
 
 func TestVec3Times(t *testing.T) {
-	cases := []struct{
+	cases := []struct {
 		a, b, result geom.Vec3
 	}{
 		{geom.Vec3{}, geom.Vec3{}, geom.Vec3{}},
@@ -71,7 +71,7 @@ func TestVec3Times(t *testing.T) {
 }
 
 func TestVec3ScaledBy(t *testing.T) {
-	cases := []struct{
+	cases := []struct {
 		scalar    float64
 		v, result geom.Vec3
 	}{
@@ -92,7 +92,7 @@ func TestVec3ScaledBy(t *testing.T) {
 }
 
 func TestVec3Ori2(t *testing.T) {
-	cases := []struct{
+	cases := []struct {
 		v geom.Vec3
 		o geom.Ori2
 	}{

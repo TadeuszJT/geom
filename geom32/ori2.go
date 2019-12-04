@@ -15,7 +15,7 @@ func (o Ori2) Vec3() Vec3 {
 }
 
 func (a Ori2) Times(b Ori2) Ori2 {
-	return Ori2{a.X*b.X, a.Y*b.Y, a.Theta*b.Theta}
+	return Ori2{a.X * b.X, a.Y * b.Y, a.Theta * b.Theta}
 }
 
 func (a *Ori2) PlusEquals(b Ori2) {
@@ -37,4 +37,3 @@ func (o Ori2) Mat3Transform() Mat3 {
 		0, 0, 1,
 	}
 }
-

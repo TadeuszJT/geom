@@ -14,6 +14,50 @@ func mat3Identical(a, b geom.Mat3) bool {
 	return true
 }
 
+func TestMat3Identical(t *testing.T) {
+	cases := []struct {
+		a, b   geom.Mat3
+		result bool
+	}{
+		{geom.Mat3Identity(), geom.Mat3Identity(), true},
+		{
+			geom.Mat3{0, 1, 2, 3, 4, 5, 6, 7, 8},
+			geom.Mat3{0, 1, 2, 3, 4, 5, 6, 7, 8},
+			true,
+		},
+		{
+			geom.Mat3{0, 1, 2, 3, 4, 5, 6, 7, 8.1},
+			geom.Mat3{0, 1, 2, 3, 4, 5, 6, 7, 8},
+			false,
+		},
+		{
+			geom.Mat3{pInf, 1, 2, 3, 4, 5, 6, 7, 8},
+			geom.Mat3{pInf, 1, 2, 3, 4, 5, 6, 7, 8},
+			true,
+		},
+		{
+			geom.Mat3{pInf, 1, 2, 3, 4, 5, 6, 7, 8},
+			geom.Mat3{nInf, 1, 2, 3, 4, 5, 6, 7, 8},
+			false,
+		},
+		{
+			geom.Mat3{pInf, 1, 2, 3, nan, 5, 6, 7, 8},
+			geom.Mat3{pInf, 1, 2, 3, nan, 5, 6, 7, 8},
+			true,
+		},
+	}
+
+	for _, c := range cases {
+		expected := c.result
+		actual := mat3Identical(c.a, c.b)
+
+		if expected != actual {
+			t.Errorf("a: %v, b: %v, expected: %v, got: %v",
+				c.a, c.b, expected, actual)
+		}
+	}
+}
+
 func TestMat3Identity(t *testing.T) {
 	expected := geom.Mat3{
 		1, 0, 0,
@@ -106,5 +150,42 @@ func TestMat3Camera2D(t *testing.T) {
 			t.Errorf("point: %v: expected: %v, got: %v", c.point, expected, actual)
 		}
 	}
+}
 
+func TestMat3Times(t *testing.T) {
+	cases := []struct {
+		a, b, result geom.Mat3
+	}{
+		{
+			geom.Mat3Identity(),
+			geom.Mat3Identity(),
+			geom.Mat3Identity(),
+		},
+		{
+			geom.Mat3{
+				1, 2, 3,
+				4, 5, 6,
+				7, 8, 9,
+			},
+			geom.Mat3{
+				1, 2, 3,
+				4, 5, 6,
+				7, 8, 9,
+			},
+			geom.Mat3{
+				1, 4, 9,
+				16, 25, 36,
+				49, 64, 81,
+			},
+		},
+	}
+
+	for _, c := range cases {
+		actual := c.a.Times(c.b)
+		expected := c.result
+		if !mat3Identical(expected, actual) {
+			t.Errorf("a: %v Times b: %v, expected: %v, got: %v",
+				c.a, c.b, expected, actual)
+		}
+	}
 }

@@ -10,6 +10,14 @@ func Mat3Identity() Mat3 {
 	}
 }
 
+func (a Mat3) Times(b Mat3) Mat3 {
+	return Mat3{
+		a[0] * b[0], a[1] * b[1], a[2] * b[2],
+		a[3] * b[3], a[4] * b[4], a[5] * b[5],
+		a[6] * b[6], a[7] * b[7], a[8] * b[8],
+	}
+}
+
 func (m Mat3) TimesVec2(v Vec2, bias float32) Vec3 {
 	return Vec3{
 		X: m[0]*v.X + m[1]*v.Y + m[2]*bias,

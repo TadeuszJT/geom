@@ -29,7 +29,7 @@ func (v Vec2) RotatedBy(radians float32) Vec2 {
 	radians64 := float64(radians)
 	sin := float32(math.Sin(radians64))
 	cos := float32(math.Cos(radians64))
-	
+
 	return Vec2{cos*v.X - sin*v.Y, sin*v.X + cos*v.Y}
 }
 
@@ -56,5 +56,3 @@ func Vec2RandNormal() Vec2 {
 		float32(math.Cos(theta)),
 	}
 }
-
-

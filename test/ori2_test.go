@@ -1,9 +1,9 @@
 package geomTest
 
 import (
-	"testing"
 	"github.com/tadeuszjt/geom"
 	"math"
+	"testing"
 )
 
 func ori2Identical(a, b geom.Ori2) bool {
@@ -42,7 +42,7 @@ func TestVec2(t *testing.T) {
 }
 
 func TestOri2PlusEquals(t *testing.T) {
-	cases := []struct{
+	cases := []struct {
 		v, b, result geom.Ori2
 	}{
 		{geom.Ori2{}, geom.Ori2{}, geom.Ori2{}},
@@ -64,7 +64,7 @@ func TestOri2PlusEquals(t *testing.T) {
 }
 
 func TestOri2ScaledBy(t *testing.T) {
-	cases := []struct{
+	cases := []struct {
 		scalar    float64
 		o, result geom.Ori2
 	}{
@@ -95,8 +95,8 @@ func TestOri2Mat3Transform(t *testing.T) {
 		{geom.Ori2{}, geom.Vec2{}, geom.Vec3{0, 0, 1}},
 		{geom.Ori2{1, 2, 0}, geom.Vec2{0, 0}, geom.Vec3{1, 2, 1}},
 		{geom.Ori2{1, 2, 0}, geom.Vec2{3, 4}, geom.Vec3{4, 6, 1}},
-		{geom.Ori2{3, 4, math.Pi/2}, geom.Vec2{1, 2}, geom.Vec3{1, 5, 1}},
-		{geom.Ori2{3, 4, -math.Pi/2}, geom.Vec2{1, 2}, geom.Vec3{5, 3, 1}},
+		{geom.Ori2{3, 4, math.Pi / 2}, geom.Vec2{1, 2}, geom.Vec3{1, 5, 1}},
+		{geom.Ori2{3, 4, -math.Pi / 2}, geom.Vec2{1, 2}, geom.Vec3{5, 3, 1}},
 		{geom.Ori2{-2, 8, math.Pi}, geom.Vec2{3, -2}, geom.Vec3{-5, 10, 1}},
 	}
 
@@ -110,7 +110,7 @@ func TestOri2Mat3Transform(t *testing.T) {
 }
 
 func TestOri2Vec2(t *testing.T) {
-	cases := []struct{
+	cases := []struct {
 		o      geom.Ori2
 		result geom.Vec3
 	}{
@@ -130,7 +130,7 @@ func TestOri2Vec2(t *testing.T) {
 }
 
 func TestOri2Times(t *testing.T) {
-	cases := []struct{
+	cases := []struct {
 		a, b, result geom.Ori2
 	}{
 		{geom.Ori2{}, geom.Ori2{}, geom.Ori2{}},

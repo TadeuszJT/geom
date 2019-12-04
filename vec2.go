@@ -54,5 +54,3 @@ func Vec2RandNormal() Vec2 {
 		math.Cos(theta),
 	}
 }
-
-

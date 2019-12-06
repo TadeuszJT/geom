@@ -11,7 +11,16 @@ func RectOrigin(w, h float32) Rect {
 	}
 }
 
-func RectCentered(w, h float32, pos Vec2) Rect {
+func RectCentred(w, h float32) Rect {
+	wh := w / 2
+	hh := h / 2
+	return Rect{
+		Vec2{-wh, -hh},
+		Vec2{wh, hh},
+	}
+}
+
+func RectCreate(w, h float32, pos Vec2) Rect {
 	wh := w / 2
 	hh := h / 2
 	return Rect{

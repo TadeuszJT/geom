@@ -25,7 +25,28 @@ func TestRectOrigin(t *testing.T) {
 	}
 }
 
-func TestRectCentered(t *testing.T) {
+func TestRectCentred(t *testing.T) {
+	cases := []struct {
+		width, height float32
+		result        geom.Rect
+	}{
+		{0, 0, geom.Rect{}},
+		{10, 20, geom.Rect{Min: geom.Vec2{-5, -10}, Max: geom.Vec2{5, 10}}},
+		{12, 22, geom.Rect{Min: geom.Vec2{-6, -11}, Max: geom.Vec2{6, 11}}},
+		{nan, pInf, geom.Rect{Min: geom.Vec2{nan, nInf}, Max: geom.Vec2{nan, pInf}}},
+		{nInf, nan, geom.Rect{Min: geom.Vec2{pInf, nan}, Max: geom.Vec2{nInf, nan}}},
+	}
+
+	for _, c := range cases {
+		expected := c.result
+		actual := geom.RectCentred(c.width, c.height)
+		if !rectIdentical(expected, actual) {
+			t.Errorf("expected: %v, got: %v", expected, actual)
+		}
+	}
+}
+
+func TestRectCreate(t *testing.T) {
 	cases := []struct {
 		width, height float32
 		position      geom.Vec2
@@ -41,7 +62,7 @@ func TestRectCentered(t *testing.T) {
 
 	for _, c := range cases {
 		expected := c.result
-		actual := geom.RectCentered(c.width, c.height, c.position)
+		actual := geom.RectCreate(c.width, c.height, c.position)
 		if !rectIdentical(expected, actual) {
 			t.Errorf("expected: %v, got: %v", expected, actual)
 		}

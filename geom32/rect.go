@@ -43,3 +43,12 @@ func (r Rect) Contains(v Vec2) bool {
 		v.Y >= r.Min.Y &&
 		v.Y <= r.Max.Y
 }
+
+func (r Rect) Verts() [4]Vec2 {
+	return [4]Vec2{
+		r.Min,
+		{r.Max.X, r.Min.Y},
+		r.Max,
+		{r.Min.X, r.Max.Y},
+	}
+}

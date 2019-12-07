@@ -158,3 +158,39 @@ func TestRectContains(t *testing.T) {
 		}
 	}
 }
+
+func TestRectVerts(t *testing.T) {
+	cases := []struct {
+		rect   geom.Rect
+		result [4]geom.Vec2
+	}{
+		{
+			geom.Rect{},
+			[4]geom.Vec2{{0, 0}, {0, 0}, {0, 0}, {0, 0}},
+		},
+		{
+			geom.RectCentred(2, 2),
+			[4]geom.Vec2{{-1, -1}, {1, -1}, {1, 1}, {-1, 1}},
+		},
+		{
+			geom.RectCreate(2, 2, geom.Vec2{-5, 5}),
+			[4]geom.Vec2{{-6, 4}, {-4, 4}, {-4, 6}, {-6, 6}},
+		},
+		{
+			geom.RectCreate(2, pInf, geom.Vec2{nInf, 5}),
+			[4]geom.Vec2{{nInf, nInf}, {nInf, nInf}, {nInf, pInf}, {nInf, pInf}},
+		},
+	}
+
+	for _, c := range cases {
+		expected := c.result
+		actual := c.rect.Verts()
+		
+		for i := range expected {
+			if !vec2Identical(expected[i], actual[i]) {
+				t.Errorf("expected: %v, got: %v", expected, actual)
+				break
+			}
+		}
+	}
+}

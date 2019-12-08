@@ -15,7 +15,7 @@ func (s *SliceOri2) Delete(i int) {
 	if i < end {
 		s.Swap(i, end)
 	}
-	
+
 	*s = (*s)[:end]
 }
 

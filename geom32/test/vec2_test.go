@@ -212,6 +212,37 @@ func TestVec2Len(t *testing.T) {
 	}
 }
 
+func TestVec2Normal(t *testing.T) {
+	cases := []struct {
+		v, result geom.Vec2
+	}{
+		{geom.Vec2{}, geom.Vec2{}},
+		{geom.Vec2{12, 0}, geom.Vec2{1, 0}},
+		{geom.Vec2{0, -0.23}, geom.Vec2{0, -1}},
+		{
+			geom.Vec2{-12, -12},
+			geom.Vec2{float32(-math.Sqrt(0.5)), float32(-math.Sqrt(0.5))},
+		},
+		{
+			geom.Vec2{12, -12},
+			geom.Vec2{float32(math.Sqrt(0.5)), float32(-math.Sqrt(0.5))},
+		},
+		{geom.Vec2{pInf, 2}, geom.Vec2{1, 0}},
+		{geom.Vec2{-32, nInf}, geom.Vec2{0, -1}},
+		{geom.Vec2{nan, nInf}, geom.Vec2{0, 0}},
+		{geom.Vec2{pInf, pInf}, geom.Vec2{0, 0}},
+		{geom.Vec2{nInf, pInf}, geom.Vec2{0, 0}},
+	}
+
+	for _, c := range cases {
+		expected := c.result
+		actual := c.v.Normal()
+		if !vec2Identical(expected, actual) {
+			t.Errorf("expected: %v, got %v", expected, actual)
+		}
+	}
+}
+
 func TestVec2RotatedBy(t *testing.T) {
 	cases := []struct {
 		theta     float32

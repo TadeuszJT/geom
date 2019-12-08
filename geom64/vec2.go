@@ -39,6 +39,28 @@ func (v Vec2) Len() float64 {
 	return math.Sqrt(v.Len2())
 }
 
+func (v Vec2) Normal() Vec2 {
+	len := v.Len()
+	if len == 0 || math.IsNaN(v.X) || math.IsNaN(v.Y) {
+		return Vec2{}
+	}
+
+	switch {
+	case math.IsInf(v.X, 0) && math.IsInf(v.Y, 0):
+		return Vec2{}
+	case math.IsInf(v.X, 1):
+		return Vec2{1, 0}
+	case math.IsInf(v.X, -1):
+		return Vec2{-1, 0}
+	case math.IsInf(v.Y, 1):
+		return Vec2{0, 1}
+	case math.IsInf(v.Y, -1):
+		return Vec2{0, -1}
+	}
+
+	return v.ScaledBy(1 / len)
+}
+
 func (a *Vec2) PlusEquals(b Vec2) {
 	a.X += b.X
 	a.Y += b.Y

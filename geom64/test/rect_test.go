@@ -185,7 +185,7 @@ func TestRectVerts(t *testing.T) {
 	for _, c := range cases {
 		expected := c.result
 		actual := c.rect.Verts()
-		
+
 		for i := range expected {
 			if !vec2Identical(expected[i], actual[i]) {
 				t.Errorf("expected: %v, got: %v", expected, actual)

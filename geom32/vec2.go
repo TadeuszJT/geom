@@ -37,6 +37,10 @@ func (v Vec2) Len2() float32 {
 	return v.X*v.X + v.Y*v.Y
 }
 
+func (v Vec2) Len() float32 {
+	return float32(math.Sqrt(float64(v.Len2())))
+}
+
 func (a *Vec2) PlusEquals(b Vec2) {
 	a.X += b.X
 	a.Y += b.Y

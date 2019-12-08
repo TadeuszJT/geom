@@ -1,7 +1,7 @@
 package geomTest
 
 import (
-	"github.com/tadeuszjt/geom"
+	"github.com/tadeuszjt/geom/geom64"
 	"math"
 	"math/rand"
 	"testing"
@@ -166,7 +166,6 @@ func TestVec2RandNormal(t *testing.T) {
 }
 
 func TestVec2Len2(t *testing.T) {
-	// a2 = b2 + c2
 	cases := []struct {
 		vec  geom.Vec2
 		len2 float64
@@ -183,6 +182,30 @@ func TestVec2Len2(t *testing.T) {
 	for _, c := range cases {
 		expected := c.len2
 		actual := c.vec.Len2()
+		if !floatIdentical(expected, actual) {
+			t.Errorf("expected: %v, got %v", expected, actual)
+		}
+	}
+}
+
+func TestVec2Len(t *testing.T) {
+	cases := []struct {
+		vec    geom.Vec2
+		result float64
+	}{
+		{geom.Vec2{}, 0},
+		{geom.Vec2{1, 0}, 1},
+		{geom.Vec2{2, 0}, 2},
+		{geom.Vec2{0, 2}, 2},
+		{geom.Vec2{-3, 4}, 5},
+		{geom.Vec2{3, 4}, 5},
+		{geom.Vec2{nan, 2}, nan},
+		{geom.Vec2{pInf, 2}, pInf},
+	}
+
+	for _, c := range cases {
+		expected := c.result
+		actual := c.vec.Len()
 		if !floatIdentical(expected, actual) {
 			t.Errorf("expected: %v, got %v", expected, actual)
 		}

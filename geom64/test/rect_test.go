@@ -1,7 +1,7 @@
 package geomTest
 
 import (
-	"github.com/tadeuszjt/geom"
+	"github.com/tadeuszjt/geom/geom64"
 	"testing"
 )
 

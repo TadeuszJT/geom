@@ -16,6 +16,24 @@ func vec2Identical(a, b geom.Vec2) bool {
 	return floatIdentical(a.X, b.X) && floatIdentical(a.Y, b.Y)
 }
 
+func TestVec2Ori2(t *testing.T) {
+	cases := []struct {
+		v geom.Vec2
+		o geom.Ori2
+	}{
+		{geom.Vec2{}, geom.Ori2{}},
+		{geom.Vec2{1, 2}, geom.Ori2{1, 2, 0}},
+		{geom.Vec2{nInf, nan}, geom.Ori2{nInf, nan, 0}},
+	}
+	for _, c := range cases {
+		expected := c.o
+		actual := c.v.Ori2()
+		if !ori2Identical(expected, actual) {
+			t.Errorf("expected: %v, got: %v", expected, actual)
+		}
+	}
+}
+
 func TestVec2Plus(t *testing.T) {
 	cases := []struct {
 		A, B, result geom.Vec2

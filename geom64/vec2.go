@@ -9,6 +9,10 @@ type Vec2 struct {
 	X, Y float64
 }
 
+func (v Vec2) Ori2() Ori2 {
+	return Ori2{v.X, v.Y, 0}
+}
+
 func (a Vec2) Plus(b Vec2) Vec2 {
 	return Vec2{a.X + b.X, a.Y + b.Y}
 }

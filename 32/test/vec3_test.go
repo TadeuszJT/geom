@@ -1,11 +1,11 @@
 package geomTest
 
 import (
-	"github.com/tadeuszjt/geom/geom32"
+	. "github.com/tadeuszjt/geom/32"
 	"testing"
 )
 
-func vec3Identical(a, b geom.Vec3) bool {
+func vec3Identical(a, b Vec3) bool {
 	return floatIdentical(a.X, b.X) &&
 		floatIdentical(a.Y, b.Y) &&
 		floatIdentical(a.Z, b.Z)
@@ -13,13 +13,13 @@ func vec3Identical(a, b geom.Vec3) bool {
 
 func TestVec3Vec2(t *testing.T) {
 	for _, c := range []struct {
-		geom.Vec3
-		geom.Vec2
+		Vec3
+		Vec2
 	}{
-		{geom.Vec3{0, 0, 0}, geom.Vec2{0, 0}},
-		{geom.Vec3{1, 2, 3}, geom.Vec2{1, 2}},
-		{geom.Vec3{-1, -2, -3}, geom.Vec2{-1, -2}},
-		{geom.Vec3{nan, nInf, pInf}, geom.Vec2{nan, nInf}},
+		{Vec3{0, 0, 0}, Vec2{0, 0}},
+		{Vec3{1, 2, 3}, Vec2{1, 2}},
+		{Vec3{-1, -2, -3}, Vec2{-1, -2}},
+		{Vec3{nan, nInf, pInf}, Vec2{nan, nInf}},
 	} {
 		expected := c.Vec2
 		actual := c.Vec3.Vec2()
@@ -31,15 +31,15 @@ func TestVec3Vec2(t *testing.T) {
 
 func TestVec3Dot(t *testing.T) {
 	cases := []struct {
-		a, b   geom.Vec3
+		a, b   Vec3
 		result float32
 	}{
-		{geom.Vec3{}, geom.Vec3{}, 0},
-		{geom.Vec3{1, 2, 3}, geom.Vec3{4, 5, 6}, 32},
-		{geom.Vec3{0, 0, 0}, geom.Vec3{4, 5, 6}, 0},
-		{geom.Vec3{-1, -2, -3}, geom.Vec3{4, 5, 6}, -32},
-		{geom.Vec3{-1, 2, -3}, geom.Vec3{4, 5, 6}, -12},
-		{geom.Vec3{-1, nan, -3}, geom.Vec3{4, 5, 6}, nan},
+		{Vec3{}, Vec3{}, 0},
+		{Vec3{1, 2, 3}, Vec3{4, 5, 6}, 32},
+		{Vec3{0, 0, 0}, Vec3{4, 5, 6}, 0},
+		{Vec3{-1, -2, -3}, Vec3{4, 5, 6}, -32},
+		{Vec3{-1, 2, -3}, Vec3{4, 5, 6}, -12},
+		{Vec3{-1, nan, -3}, Vec3{4, 5, 6}, nan},
 	}
 
 	for _, c := range cases {
@@ -53,12 +53,12 @@ func TestVec3Dot(t *testing.T) {
 
 func TestVec3Times(t *testing.T) {
 	cases := []struct {
-		a, b, result geom.Vec3
+		a, b, result Vec3
 	}{
-		{geom.Vec3{}, geom.Vec3{}, geom.Vec3{}},
-		{geom.Vec3{1, 2, 3}, geom.Vec3{4, 5, 6}, geom.Vec3{4, 10, 18}},
-		{geom.Vec3{-1, 2, -3}, geom.Vec3{4, -5, 6}, geom.Vec3{-4, -10, -18}},
-		{geom.Vec3{nan, pInf, nInf}, geom.Vec3{-4, -5, -6}, geom.Vec3{nan, nInf, pInf}},
+		{Vec3{}, Vec3{}, Vec3{}},
+		{Vec3{1, 2, 3}, Vec3{4, 5, 6}, Vec3{4, 10, 18}},
+		{Vec3{-1, 2, -3}, Vec3{4, -5, 6}, Vec3{-4, -10, -18}},
+		{Vec3{nan, pInf, nInf}, Vec3{-4, -5, -6}, Vec3{nan, nInf, pInf}},
 	}
 
 	for _, c := range cases {
@@ -73,13 +73,13 @@ func TestVec3Times(t *testing.T) {
 func TestVec3ScaledBy(t *testing.T) {
 	cases := []struct {
 		scalar    float32
-		v, result geom.Vec3
+		v, result Vec3
 	}{
-		{0, geom.Vec3{}, geom.Vec3{}},
-		{0, geom.Vec3{1, 2, 3}, geom.Vec3{0, 0, 0}},
-		{1, geom.Vec3{1, 2, 3}, geom.Vec3{1, 2, 3}},
-		{-1, geom.Vec3{1, 2, 3}, geom.Vec3{-1, -2, -3}},
-		{100, geom.Vec3{1, 2, 3}, geom.Vec3{100, 200, 300}},
+		{0, Vec3{}, Vec3{}},
+		{0, Vec3{1, 2, 3}, Vec3{0, 0, 0}},
+		{1, Vec3{1, 2, 3}, Vec3{1, 2, 3}},
+		{-1, Vec3{1, 2, 3}, Vec3{-1, -2, -3}},
+		{100, Vec3{1, 2, 3}, Vec3{100, 200, 300}},
 	}
 
 	for _, c := range cases {
@@ -93,13 +93,13 @@ func TestVec3ScaledBy(t *testing.T) {
 
 func TestVec3Ori2(t *testing.T) {
 	cases := []struct {
-		v geom.Vec3
-		o geom.Ori2
+		v Vec3
+		o Ori2
 	}{
-		{geom.Vec3{}, geom.Ori2{}},
-		{geom.Vec3{1, 2, 3}, geom.Ori2{1, 2, 3}},
-		{geom.Vec3{-1, -2, -3}, geom.Ori2{-1, -2, -3}},
-		{geom.Vec3{nan, pInf, nInf}, geom.Ori2{nan, pInf, nInf}},
+		{Vec3{}, Ori2{}},
+		{Vec3{1, 2, 3}, Ori2{1, 2, 3}},
+		{Vec3{-1, -2, -3}, Ori2{-1, -2, -3}},
+		{Vec3{nan, pInf, nInf}, Ori2{nan, pInf, nInf}},
 	}
 
 	for _, c := range cases {

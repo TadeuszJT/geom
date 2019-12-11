@@ -69,6 +69,29 @@ func TestRectCentredAt(t *testing.T) {
 	}
 }
 
+func TestMakeRect(t *testing.T) {
+	cases := []struct {
+		width, height float64
+		position      Vec2
+		result        Rect
+	}{
+		{0, 0, Vec2{0, 0}, Rect{}},
+		{10, 20, Vec2{0, 0}, Rect{Min: Vec2{0, 0}, Max: Vec2{10, 20}}},
+		{10, 20, Vec2{3, 4}, Rect{Min: Vec2{3, 4}, Max: Vec2{13, 24}}},
+		{0, 0, Vec2{3, 4}, Rect{Min: Vec2{3, 4}, Max: Vec2{3, 4}}},
+		{0.3, 0.8, Vec2{-2.3, 4}, Rect{Min: Vec2{-2.3, 4}, Max: Vec2{-2, 4.8}}},
+		{-3, 0, Vec2{1, 2}, Rect{Min: Vec2{1, 2}, Max: Vec2{-2, 2}}},
+	}
+
+	for _, c := range cases {
+		expected := c.result
+		actual := MakeRect(c.width, c.height, c.position)
+		if !rectIdentical(expected, actual) {
+			t.Errorf("expected: %v, got: %v", expected, actual)
+		}
+	}
+}
+
 func TestRectWidth(t *testing.T) {
 	cases := []struct {
 		rect  Rect

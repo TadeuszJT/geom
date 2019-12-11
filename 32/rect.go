@@ -29,6 +29,13 @@ func RectCentredAt(w, h float32, pos Vec2) Rect {
 	}
 }
 
+func MakeRect(w, h float32, pos Vec2) Rect {
+	return Rect{
+		Vec2{pos.X, pos.Y},
+		Vec2{pos.X + w, pos.Y + h},
+	}
+}
+
 func (r Rect) Width() float32 {
 	return r.Max.X - r.Min.X
 }

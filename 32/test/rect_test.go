@@ -46,7 +46,7 @@ func TestRectCentred(t *testing.T) {
 	}
 }
 
-func TestRectCreate(t *testing.T) {
+func TestRectCentredAt(t *testing.T) {
 	cases := []struct {
 		width, height float32
 		position      Vec2
@@ -62,7 +62,7 @@ func TestRectCreate(t *testing.T) {
 
 	for _, c := range cases {
 		expected := c.result
-		actual := RectCreate(c.width, c.height, c.position)
+		actual := RectCentredAt(c.width, c.height, c.position)
 		if !rectIdentical(expected, actual) {
 			t.Errorf("expected: %v, got: %v", expected, actual)
 		}
@@ -173,11 +173,11 @@ func TestRectVerts(t *testing.T) {
 			[4]Vec2{{-1, -1}, {1, -1}, {1, 1}, {-1, 1}},
 		},
 		{
-			RectCreate(2, 2, Vec2{-5, 5}),
+			RectCentredAt(2, 2, Vec2{-5, 5}),
 			[4]Vec2{{-6, 4}, {-4, 4}, {-4, 6}, {-6, 6}},
 		},
 		{
-			RectCreate(2, pInf, Vec2{nInf, 5}),
+			RectCentredAt(2, pInf, Vec2{nInf, 5}),
 			[4]Vec2{{nInf, nInf}, {nInf, nInf}, {nInf, pInf}, {nInf, pInf}},
 		},
 	}

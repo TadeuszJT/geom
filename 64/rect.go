@@ -20,7 +20,7 @@ func RectCentred(w, h float64) Rect {
 	}
 }
 
-func RectCreate(w, h float64, pos Vec2) Rect {
+func RectCentredAt(w, h float64, pos Vec2) Rect {
 	wh := w / 2
 	hh := h / 2
 	return Rect{

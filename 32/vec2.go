@@ -29,10 +29,10 @@ func (v Vec2) ScaledBy(f float32) Vec2 {
 	return Vec2{v.X * f, v.Y * f}
 }
 
-func (v Vec2) RotatedBy(radians float32) Vec2 {
-	radians64 := float64(radians)
-	sin := float32(math.Sin(radians64))
-	cos := float32(math.Cos(radians64))
+func (v Vec2) RotatedBy(rad float32) Vec2 {
+	rad64 := float64(rad)
+	sin := float32(math.Sin(rad64))
+	cos := float32(math.Cos(rad64))
 
 	return Vec2{cos*v.X - sin*v.Y, sin*v.X + cos*v.Y}
 }
@@ -43,6 +43,10 @@ func (v Vec2) Len2() float32 {
 
 func (v Vec2) Len() float32 {
 	return float32(math.Sqrt(float64(v.Len2())))
+}
+
+func (v Vec2) Theta() Angle {
+    return Angle(math.Atan2(float64(v.Y), float64(v.X)))
 }
 
 func (v Vec2) Normal() Vec2 {

@@ -21,5 +21,5 @@ func (v Vec3) ScaledBy(f float32) Vec3 {
 }
 
 func (v Vec3) Ori2() Ori2 {
-	return Ori2{v.X, v.Y, v.Z}
+	return Ori2{v.X, v.Y, MakeAngle(v.Z)}
 }

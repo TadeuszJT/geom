@@ -15,10 +15,6 @@ func (o Ori2) Vec3() Vec3 {
 	return Vec3{o.X, o.Y, float32(o.Theta)}
 }
 
-func (a Ori2) Times(b Ori2) Ori2 {
-	return Ori2{a.X * b.X, a.Y * b.Y, MakeAngle(float32(a.Theta * b.Theta))}
-}
-
 func (a *Ori2) PlusEquals(b Ori2) {
 	a.X += b.X
 	a.Y += b.Y

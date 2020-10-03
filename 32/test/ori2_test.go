@@ -9,7 +9,7 @@ import (
 func ori2Identical(a, b Ori2) bool {
 	return floatIdentical(a.X, b.X) &&
 		floatIdentical(a.Y, b.Y) &&
-		floatIdentical(a.Theta, b.Theta)
+		floatIdentical(float32(a.Theta), float32(b.Theta))
 }
 
 func TestOri2(t *testing.T) {
@@ -29,7 +29,7 @@ func TestVec2(t *testing.T) {
 		{Ori2{1, 2, 3}, Vec2{1, 2}},
 		{Ori2{.1, .2, .3}, Vec2{.1, .2}},
 		{Ori2{-1, -2, 3}, Vec2{-1, -2}},
-		{Ori2{nan, pInf, nInf}, Vec2{nan, pInf}},
+		{Ori2{nan, pInf, Angle(nInf)}, Vec2{nan, pInf}},
 	}
 
 	for _, c := range cases {
@@ -48,38 +48,15 @@ func TestOri2PlusEquals(t *testing.T) {
 		{Ori2{}, Ori2{}, Ori2{}},
 		{Ori2{0, 0, 0}, Ori2{1, 2, 3}, Ori2{1, 2, 3}},
 		{Ori2{0, 0, 0}, Ori2{-1, -2, -3}, Ori2{-1, -2, -3}},
-		{Ori2{1, 2, 3}, Ori2{4, 5, 6}, Ori2{5, 7, 9}},
+		{Ori2{1, 2, math.Pi}, Ori2{4, 5, math.Pi}, Ori2{5, 7, 0}},
 		{Ori2{1, 2, 3}, Ori2{-4, -5, -6}, Ori2{-3, -3, -3}},
-		{Ori2{nan, 2, 3}, Ori2{4, 5, 6}, Ori2{nan, 7, 9}},
+		{Ori2{nan, 2, 3}, Ori2{4, 5, 0}, Ori2{nan, 7, 3}},
 	}
 
 	for _, c := range cases {
 		expected := c.result
 		c.v.PlusEquals(c.b)
 		actual := c.v
-		if !ori2Identical(expected, actual) {
-			t.Errorf("expected: %v, actual: %v", expected, actual)
-		}
-	}
-}
-
-func TestOri2ScaledBy(t *testing.T) {
-	cases := []struct {
-		scalar    float32
-		o, result Ori2
-	}{
-		{0, Ori2{}, Ori2{}},
-		{0, Ori2{1, 2, 3}, Ori2{0, 0, 0}},
-		{1, Ori2{1, 2, 3}, Ori2{1, 2, 3}},
-		{-2, Ori2{1, 2, 3}, Ori2{-2, -4, -6}},
-		{nan, Ori2{1, 2, 3}, Ori2{nan, nan, nan}},
-		{0.001, Ori2{1, 2, 3}, Ori2{0.001, 0.002, 0.003}},
-		{pInf, Ori2{1, -2, 3}, Ori2{pInf, nInf, pInf}},
-	}
-
-	for _, c := range cases {
-		expected := c.result
-		actual := c.o.ScaledBy(c.scalar)
 		if !ori2Identical(expected, actual) {
 			t.Errorf("expected: %v, actual: %v", expected, actual)
 		}
@@ -124,27 +101,6 @@ func TestOri2Vec2(t *testing.T) {
 		expected := c.result
 		actual := c.o.Vec3()
 		if !vec3Identical(expected, actual) {
-			t.Errorf("expected: %v, actual: %v", expected, actual)
-		}
-	}
-}
-
-func TestOri2Times(t *testing.T) {
-	cases := []struct {
-		a, b, result Ori2
-	}{
-		{Ori2{}, Ori2{}, Ori2{}},
-		{Ori2{0, 0, 0}, Ori2{1, 2, 3}, Ori2{0, 0, 0}},
-		{Ori2{1, 0.2, 3}, Ori2{0.4, 5, 0.6}, Ori2{0.4, 1, 1.8}},
-		{Ori2{-1, -2, -3}, Ori2{4, 5, 6}, Ori2{-4, -10, -18}},
-		{Ori2{nan, pInf, nInf}, Ori2{-4, -5, -6}, Ori2{nan, nInf, pInf}},
-		{Ori2{nan, pInf, nInf}, Ori2{0, 0, 0}, Ori2{nan, nan, nan}},
-	}
-
-	for _, c := range cases {
-		expected := c.result
-		actual := c.a.Times(c.b)
-		if !ori2Identical(expected, actual) {
 			t.Errorf("expected: %v, actual: %v", expected, actual)
 		}
 	}

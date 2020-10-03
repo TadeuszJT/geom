@@ -99,7 +99,7 @@ func TestVec3Ori2(t *testing.T) {
 		{Vec3{}, Ori2{}},
 		{Vec3{1, 2, 3}, Ori2{1, 2, 3}},
 		{Vec3{-1, -2, -3}, Ori2{-1, -2, -3}},
-		{Vec3{nan, pInf, nInf}, Ori2{nan, pInf, nInf}},
+		{Vec3{nan, pInf, nInf}, Ori2{nan, pInf, MakeAngle(nInf)}},
 	}
 
 	for _, c := range cases {

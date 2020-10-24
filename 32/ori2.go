@@ -4,7 +4,7 @@ import "math"
 
 type Ori2 struct {
 	X, Y  float32
-    Theta Angle
+	Theta Angle
 }
 
 func (o Ori2) Vec2() Vec2 {

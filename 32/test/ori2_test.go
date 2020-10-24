@@ -86,7 +86,7 @@ func TestOri2Mat3Transform(t *testing.T) {
 	}
 }
 
-func TestOri2Vec2(t *testing.T) {
+func TestOri2Vec3(t *testing.T) {
 	cases := []struct {
 		o      Ori2
 		result Vec3

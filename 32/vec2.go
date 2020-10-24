@@ -46,7 +46,7 @@ func (v Vec2) Len() float32 {
 }
 
 func (v Vec2) Theta() Angle {
-    return Angle(math.Atan2(float64(v.Y), float64(v.X)))
+	return Angle(math.Atan2(float64(v.Y), float64(v.X)))
 }
 
 func (v Vec2) Normal() Vec2 {

@@ -49,6 +49,88 @@ func TestMat4Identical(t *testing.T) {
 	}
 }
 
+func TestMat4TransformVec3(t *testing.T) {
+	cases := []struct {
+		m      Mat4
+		v      Vec3
+		w      float32
+		result Vec3
+	}{
+		{Mat4Identity(), Vec3{}, 1, Vec3{}},
+		{
+			Mat4{
+				0, 1, 2, 3,
+				4, 5, 6, 7,
+				8, 9, 10, 11,
+				12, 13, 14, 15,
+			},
+			Vec3{1, 2, 3},
+			4,
+			Vec3{20. / 140., 60. / 140., 100. / 140.},
+		},
+	}
+
+	for _, c := range cases {
+		expected := c.result
+		actual := c.m.TransformVec3(c.v, c.w)
+
+		if !vec3Identical(expected, actual) {
+			t.Errorf("expected: %v, actual: %v", expected, actual)
+		}
+	}
+}
+
+func TestMat4Perspective(t *testing.T) {
+	cases := []struct {
+		r, l, t, b, n, f float32
+		world, screen    []Vec3
+	}{
+		{
+			1, -1, 1, -1, 1, 4,
+			[]Vec3{
+				{1, 1, -1},
+				{-1, -1, -1},
+				{1, 1, -4},
+				{-1, -1, -4},
+			},
+			[]Vec3{
+				{1, 1, -1},
+				{-1, -1, -1},
+				{1. / 4., 1. / 4., 1},
+				{-1. / 4., -1. / 4., 1},
+			},
+		},
+		{
+			2, -2, 1, -1, 1, 4,
+			[]Vec3{
+				{1, 1, -1},
+				{-1, -1, -1},
+				{1, 1, -4},
+				{-1, -1, -4},
+			},
+			[]Vec3{
+				{.5, 1, -1},
+				{-.5, -1, -1},
+				{.5 / 4., 1. / 4., 1},
+				{-.5 / 4., -1. / 4., 1},
+			},
+		},
+	}
+
+	for _, c := range cases {
+		p := Mat4Perspective(c.r, c.l, c.t, c.b, c.n, c.f)
+
+		for i := range c.world {
+			expected := c.screen[i]
+			actual := p.TransformVec3(c.world[i], 1)
+
+			if !vec3Identical(expected, actual) {
+				t.Errorf("expected: %v, actual: %v", expected, actual)
+			}
+		}
+	}
+}
+
 func TestMat4Translation(t *testing.T) {
 	cases := []struct {
 		x, y, z float32
@@ -174,15 +256,12 @@ func TestMat4RotationY(t *testing.T) {
 	f707 := float32(math.Sqrt(0.5))
 
 	cases := []struct {
-		rad    float32
+		rad    Angle
 		result Mat4
 	}{
+		{0, Mat4Identity()},
 		{
-			0,
-			Mat4Identity(),
-		},
-		{
-			float32(math.Pi / 4),
+			Angle45Deg,
 			Mat4{
 				f707, 0, f707, 0,
 				0, 1, 0, 0,
@@ -191,7 +270,7 @@ func TestMat4RotationY(t *testing.T) {
 			},
 		},
 		{
-			float32(-3 * math.Pi / 4),
+			-3 * Angle45Deg,
 			Mat4{
 				-f707, 0, -f707, 0,
 				0, 1, 0, 0,
@@ -203,7 +282,101 @@ func TestMat4RotationY(t *testing.T) {
 
 	for _, c := range cases {
 		expected := c.result
-		actual := Mat4RotationY(MakeAngle(c.rad))
+		actual := Mat4RotationY(c.rad)
+
+		if !mat4Identical(expected, actual) {
+			t.Errorf("expected: %v, got: %v", expected, actual)
+		}
+	}
+}
+
+func TestMat4RotationZ(t *testing.T) {
+	f707 := float32(math.Sqrt(0.5))
+
+	cases := []struct {
+		rad    Angle
+		result Mat4
+	}{
+		{
+			0,
+			Mat4Identity(),
+		},
+		{
+			Angle45Deg,
+			Mat4{
+				f707, -f707, 0, 0,
+				f707, f707, 0, 0,
+				0, 0, 1, 0,
+				0, 0, 0, 1,
+			},
+		},
+		{
+			-3 * Angle45Deg,
+			Mat4{
+				-f707, f707, 0, 0,
+				-f707, -f707, 0, 0,
+				0, 0, 1, 0,
+				0, 0, 0, 1,
+			},
+		},
+	}
+
+	for _, c := range cases {
+		expected := c.result
+		actual := Mat4RotationZ(c.rad)
+
+		if !mat4Identical(expected, actual) {
+			t.Errorf("expected: %v, got: %v", expected, actual)
+		}
+	}
+}
+
+func TestMat4RollPitchYaw(t *testing.T) {
+	f707 := float32(math.Sqrt(0.5))
+
+	cases := []struct {
+		r, p, y Angle
+		result  Mat4
+	}{
+		{
+			0, 0, 0,
+			Mat4Identity(),
+		},
+		{
+			Angle45Deg, 0, 0,
+			Mat4RotationZ(Angle45Deg),
+		},
+		{
+			0, Angle45Deg, 0,
+			Mat4RotationX(Angle45Deg),
+		},
+		{
+			0, 0, Angle45Deg,
+			Mat4RotationY(Angle45Deg),
+		},
+		{
+			Angle90Deg, Angle45Deg, Angle90Deg,
+			Mat4{
+				f707, 0, f707, 0,
+				f707, 0, -f707, 0,
+				0, 1, 0, 0,
+				0, 0, 0, 1,
+			},
+		},
+		{
+			-Angle90Deg, -Angle90Deg, Angle45Deg,
+			Mat4{
+				f707, f707, 0, 0,
+				0, 0, 1, 0,
+				f707, -f707, 0, 0,
+				0, 0, 0, 1,
+			},
+		},
+	}
+
+	for _, c := range cases {
+		expected := c.result
+		actual := Mat4RollPitchYaw(c.r, c.p, c.y)
 
 		if !mat4Identical(expected, actual) {
 			t.Errorf("expected: %v, got: %v", expected, actual)

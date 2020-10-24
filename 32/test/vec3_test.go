@@ -2,6 +2,7 @@ package geomTest
 
 import (
 	. "github.com/tadeuszjt/geom/32"
+	"math"
 	"testing"
 )
 
@@ -107,6 +108,95 @@ func TestVec3Ori2(t *testing.T) {
 		actual := c.v.Ori2()
 		if !ori2Identical(expected, actual) {
 			t.Errorf("expected: %v, actual: %v", expected, actual)
+		}
+	}
+}
+
+func TestVec3Len(t *testing.T) {
+	cases := []struct {
+		v Vec3
+		l float32
+	}{
+		{Vec3{}, 0},
+		{Vec3{1, 0, 0}, 1},
+		{Vec3{0, 1, 0}, 1},
+		{Vec3{0, 0, 1}, 1},
+		{Vec3{3, 4, 0}, 5},
+		{Vec3{0, -3, 4}, 5},
+		{Vec3{3, 4, 5}, float32(math.Sqrt(3*3 + 4*4 + 5*5))},
+	}
+
+	for _, c := range cases {
+		expected := c.l
+		actual := c.v.Len()
+		if !floatIdentical(expected, actual) {
+			t.Errorf("expected: %v, actual: %v", expected, actual)
+		}
+	}
+}
+
+func TestVec3Pitch(t *testing.T) {
+	cases := []struct {
+		v Vec3
+		p Angle
+	}{
+		{Vec3{}, 0},
+		{Vec3{3, 4, 0}, -Angle(math.Atan(4.0 / 3.0))},
+		{Vec3{3, 0, 2}, 0},
+		{Vec3{0, 3, -3}, -Angle45Deg},
+		{Vec3{-4, nInf, 3}, Angle90Deg},
+		{Vec3{-4, pInf, 2}, -Angle90Deg},
+	}
+
+	for _, c := range cases {
+		expected := float32(c.p)
+		actual := float32(c.v.Pitch())
+		if !floatIdentical(expected, actual) {
+			t.Errorf("v: %v: expected: %v, actual: %v", c.v, expected, actual)
+		}
+	}
+}
+
+func TestVec3Yaw(t *testing.T) {
+	cases := []struct {
+		v Vec3
+		y Angle
+	}{
+		{Vec3{}, 0},
+		{Vec3{3, -32, 3}, Angle45Deg},
+		{Vec3{3, -6, -3}, 3 * Angle45Deg},
+		{Vec3{-3, -6, 3}, -Angle45Deg},
+		{Vec3{-3, -3, -3}, -3 * Angle45Deg},
+		{Vec3{0, nInf, -3}, AnglePi},
+	}
+
+	for _, c := range cases {
+		expected := float32(c.y)
+		actual := float32(c.v.Yaw())
+		if !floatIdentical(expected, actual) {
+			t.Errorf("v: %v: expected: %v, actual: %v", c.v, expected, actual)
+		}
+	}
+}
+
+func TestVec3NormPitchYaw(t *testing.T) {
+	f707 := float32(math.Sqrt(0.5))
+
+	cases := []struct {
+		p, y Angle
+		v    Vec3
+	}{
+		{0, 0, Vec3{0, 0, 1}},
+		{Angle45Deg, 0, Vec3{0, -f707, f707}},
+		{-Angle45Deg, 0, Vec3{0, f707, f707}},
+		{-Angle45Deg, Angle90Deg, Vec3{f707, f707, 0}},
+	}
+
+	for _, c := range cases {
+		expected := c.v
+		actual := Vec3NormPitchYaw(c.p, c.y)
+		if !vec3Identical(expected, actual) {
+			t.Errorf("v: %v: expected: %v, actual: %v", c.v, expected, actual)
 		}
 	}
 }

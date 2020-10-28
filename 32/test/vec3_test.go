@@ -92,6 +92,29 @@ func TestVec3ScaledBy(t *testing.T) {
 	}
 }
 
+func TestVec3Normal(t *testing.T) {
+    f707 := float32(math.Sqrt(.5))
+
+	cases := []struct {
+		v, result Vec3
+	}{
+        {Vec3{}, Vec3{}},
+        {Vec3{2, 0, 0}, Vec3{1, 0, 0}},
+        {Vec3{2, 2, 0}, Vec3{f707, f707, 0}},
+        {Vec3{0, 4, -4}, Vec3{0, f707, -f707}},
+        {Vec3{-3, -4, -5}, Vec3{-3./(f707*10), -4./(f707*10), -5./(f707*10)}},
+	}
+
+	for _, c := range cases {
+		expected := c.result
+		actual := c.v.Normal()
+
+		if !vec3Identical(expected, actual) {
+			t.Errorf("expected: %v, actual: %v", expected, actual)
+		}
+	}
+}
+
 func TestVec3Ori2(t *testing.T) {
 	cases := []struct {
 		v Vec3
@@ -177,6 +200,23 @@ func TestVec3Yaw(t *testing.T) {
 			t.Errorf("v: %v: expected: %v, actual: %v", c.v, expected, actual)
 		}
 	}
+}
+
+func TestVec3Rand(t *testing.T) {
+    const num = 1000
+
+    cube := Cuboid{Min: Vec3{-1, -2, -3}, Max: Vec3{4, 5, 6}}
+    vecs := [num]Vec3{}
+
+    for i := range vecs {
+        vecs[i] = Vec3Rand(cube)
+    }
+
+    for i := range vecs {
+        if !cube.Contains(vecs[i]) {
+            t.Errorf("%v does not contain %v", cube, vecs[i])
+        }
+    }
 }
 
 func TestVec3NormPitchYaw(t *testing.T) {

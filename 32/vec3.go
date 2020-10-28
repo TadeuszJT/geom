@@ -17,6 +17,14 @@ func (a Vec3) Dot(b Vec3) float32 {
 	return a.X*b.X + a.Y*b.Y + a.Z*b.Z
 }
 
+func (a Vec3) Plus(b Vec3) Vec3 {
+    return Vec3{a.X+b.X, a.Y+b.Y, a.Z+b.Z}
+}
+
+func (a Vec3) Minus(b Vec3) Vec3 {
+    return Vec3{a.X-b.X, a.Y-b.Y, a.Z-b.Z}
+}
+
 func (a Vec3) Times(b Vec3) Vec3 {
 	return Vec3{a.X * b.X, a.Y * b.Y, a.Z * b.Z}
 }
@@ -25,8 +33,20 @@ func (v Vec3) ScaledBy(f float32) Vec3 {
 	return Vec3{f * v.X, f * v.Y, f * v.Z}
 }
 
+func (v Vec3) Normal() Vec3 {
+    l := v.Len()
+    if l == 0 {
+        return Vec3{}
+    }
+    return Vec3{v.X / l, v.Y / l, v.Z / l}
+}
+
 func (v Vec3) Ori2() Ori2 {
 	return Ori2{v.X, v.Y, MakeAngle(v.Z)}
+}
+
+func (v Vec3) Len2() float32 {
+	return v.Dot(v)
 }
 
 func (v Vec3) Len() float32 {
@@ -56,9 +76,9 @@ func (v *Vec3) MinusEquals(b Vec3) {
 
 func Vec3Rand(space Cuboid) Vec3 {
 	return Vec3{
-		X: float32(rand.Float64()) * space.Width(),
-		Y: float32(rand.Float64()) * space.Height(),
-		Z: float32(rand.Float64()) * space.Depth(),
+		X: float32(rand.Float64()) * space.Width() + space.Min.X,
+		Y: float32(rand.Float64()) * space.Height() + space.Min.Y,
+		Z: float32(rand.Float64()) * space.Depth() + space.Min.Z,
 	}
 }
 

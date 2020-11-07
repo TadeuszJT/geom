@@ -29,10 +29,10 @@ func RectCentredAt(w, h float32, pos Vec2) Rect {
 	}
 }
 
-func MakeRect(w, h float32, pos Vec2) Rect {
+func MakeRect(x, y, w, h float32) Rect {
 	return Rect{
-		Vec2{pos.X, pos.Y},
-		Vec2{pos.X + w, pos.Y + h},
+		Vec2{x, y},
+		Vec2{x+w, y+h},
 	}
 }
 

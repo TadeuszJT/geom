@@ -32,7 +32,7 @@ func RectCentredAt(w, h float32, pos Vec2) Rect {
 func MakeRect(x, y, w, h float32) Rect {
 	return Rect{
 		Vec2{x, y},
-		Vec2{x+w, y+h},
+		Vec2{x + w, y + h},
 	}
 }
 
@@ -42,6 +42,13 @@ func (r Rect) Width() float32 {
 
 func (r Rect) Height() float32 {
 	return r.Max.Y - r.Min.Y
+}
+
+func (r Rect) Size() Vec2 {
+	return Vec2{
+		r.Width(),
+		r.Height(),
+	}
 }
 
 func (r Rect) Contains(v Vec2) bool {

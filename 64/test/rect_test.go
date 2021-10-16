@@ -1,8 +1,9 @@
 package geomTest
 
 import (
-	. "github.com/tadeuszjt/geom/64"
 	"testing"
+
+	. "github.com/tadeuszjt/geom/64"
 )
 
 func rectIdentical(a, b Rect) bool {
@@ -127,6 +128,26 @@ func TestRectHeight(t *testing.T) {
 		expected := c.height
 		actual := c.rect.Height()
 		if !floatIdentical(expected, actual) {
+			t.Errorf("expected: %v, got: %v", expected, actual)
+		}
+	}
+}
+
+func TestRectSize(t *testing.T) {
+	cases := []struct {
+		rect Rect
+		size Vec2
+	}{
+		{Rect{Min: Vec2{0, 0}, Max: Vec2{0, 0}}, Vec2{0, 0}},
+		{Rect{Min: Vec2{0, 0}, Max: Vec2{10, 20}}, Vec2{10, 20}},
+		{Rect{Min: Vec2{1.4, 3.2}, Max: Vec2{2.3, 4.5}}, Vec2{0.9, 1.3}},
+		{Rect{Min: Vec2{8.2, -1.2}, Max: Vec2{11.3, 4.5}}, Vec2{3.1, 5.7}},
+	}
+
+	for _, c := range cases {
+		expected := c.size
+		actual := c.rect.Size()
+		if !vec2Identical(expected, actual) {
 			t.Errorf("expected: %v, got: %v", expected, actual)
 		}
 	}

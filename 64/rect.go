@@ -44,6 +44,13 @@ func (r Rect) Height() float64 {
 	return r.Max.Y - r.Min.Y
 }
 
+func (r Rect) Size() Vec2 {
+	return Vec2{
+		r.Width(),
+		r.Height(),
+	}
+}
+
 func (r Rect) Contains(v Vec2) bool {
 	return v.X >= r.Min.X &&
 		v.X <= r.Max.X &&

@@ -7,6 +7,10 @@ type Ori2 struct {
 	Theta Angle
 }
 
+func MakeOri2(pos Vec2, theta Angle) Ori2 {
+    return Ori2{pos.X, pos.Y, theta}
+}
+
 func (o Ori2) Vec2() Vec2 {
 	return Vec2{o.X, o.Y}
 }

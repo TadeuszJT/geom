@@ -18,6 +18,10 @@ func (a Ori2) Times(b Ori2) Ori2 {
 	return Ori2{a.X * b.X, a.Y * b.Y, a.Theta * b.Theta}
 }
 
+func (a Ori2) Dot(b Ori2) float64 {
+    return a.X*b.X + a.Y*b.Y + a.Theta*b.Theta
+}
+
 func (a *Ori2) PlusEquals(b Ori2) {
 	a.X += b.X
 	a.Y += b.Y

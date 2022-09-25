@@ -19,6 +19,10 @@ func (o Ori2) Vec3() Vec3 {
 	return Vec3{o.X, o.Y, float32(o.Theta)}
 }
 
+func (o Ori2) ScaledBy(f float32) Ori2 {
+    return Ori2{o.X * f, o.Y * f, o.Theta * Angle(f)}
+}
+
 func (a *Ori2) PlusEquals(b Ori2) {
 	a.X += b.X
 	a.Y += b.Y

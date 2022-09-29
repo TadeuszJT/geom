@@ -23,4 +23,3 @@ Column-Major
 
     a.Product(b) -> a is performed first
 */
-

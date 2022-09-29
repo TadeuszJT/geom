@@ -7,13 +7,13 @@ import (
 )
 
 func cuboidIdentical(a, b Cuboid) bool {
-    return vec3Identical(a.Min, b.Min) && vec3Identical(a.Max, b.Max)
+	return vec3Identical(a.Min, b.Min) && vec3Identical(a.Max, b.Max)
 }
 
 func TestCuboidCentred(t *testing.T) {
 	cases := []struct {
 		width, height, depth float32
-		result        Cuboid
+		result               Cuboid
 	}{
 		{0, 0, 0, Cuboid{}},
 		{10, 20, 30, Cuboid{Min: Vec3{-5, -10, -15}, Max: Vec3{5, 10, 15}}},
@@ -31,7 +31,7 @@ func TestCuboidCentred(t *testing.T) {
 func TestCuboidOrigin(t *testing.T) {
 	cases := []struct {
 		width, height, depth float32
-		result        Cuboid
+		result               Cuboid
 	}{
 		{0, 0, 0, Cuboid{}},
 		{10, 20, 30, Cuboid{Min: Vec3{}, Max: Vec3{10, 20, 30}}},

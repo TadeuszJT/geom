@@ -1,11 +1,33 @@
 package geom
 
+import (
+	"math"
+)
+
 type Mat3 [9]float32
 
 func Mat3Identity() Mat3 {
 	return Mat3{
 		1, 0, 0,
 		0, 1, 0,
+		0, 0, 1,
+	}
+}
+
+func Mat3Translation(v Vec2) Mat3 {
+	return Mat3{
+		1, 0, v.X,
+		0, 1, v.Y,
+		0, 0, 1,
+	}
+}
+
+func Mat3Rotation(theta Angle) Mat3 {
+	c := float32(math.Cos(float64(theta)))
+	s := float32(math.Sin(float64(theta)))
+	return Mat3{
+		c, -s, 0,
+		s, c, 0,
 		0, 0, 1,
 	}
 }

@@ -72,17 +72,17 @@ func TestRectCentredAt(t *testing.T) {
 func TestMakeRect(t *testing.T) {
 	cases := []struct {
 		x, y, w, h float32
-		result        Rect
+		result     Rect
 	}{
 		{0, 0, 0, 0, Rect{}},
 		{
-            3, 4, 10, 20,
-            Rect{Min: Vec2{3, 4}, Max: Vec2{13, 24}},
-        },
+			3, 4, 10, 20,
+			Rect{Min: Vec2{3, 4}, Max: Vec2{13, 24}},
+		},
 		{
-            -2.3, 4, 0.3, 0.8,
-            Rect{Min: Vec2{-2.3, 4}, Max: Vec2{-2, 4.8}},
-        },
+			-2.3, 4, 0.3, 0.8,
+			Rect{Min: Vec2{-2.3, 4}, Max: Vec2{-2, 4.8}},
+		},
 	}
 
 	for _, c := range cases {

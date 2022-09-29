@@ -2,6 +2,7 @@ package geomTest
 
 import (
 	. "github.com/tadeuszjt/geom/32"
+	"math"
 	"testing"
 )
 
@@ -26,6 +27,32 @@ func TestMat3Identity(t *testing.T) {
 	}
 }
 
+func TestMat3Translation(t *testing.T) {
+	expected := Mat3{
+		1, 0, 3.4,
+		0, 1, 5.6,
+		0, 0, 1,
+	}
+	actual := Mat3Translation(Vec2{3.4, 5.6})
+	if !mat3Identical(expected, actual) {
+		t.Errorf("expected: %v, got: %v", expected, actual)
+	}
+}
+
+func TestMat3Rotation(t *testing.T) {
+	f707 := float32(math.Sqrt(0.5))
+
+	expected := Mat3{
+		f707, -f707, 0,
+		f707, f707, 0,
+		0, 0, 1,
+	}
+	actual := Mat3Rotation(Angle(math.Pi / 4))
+	if !mat3Identical(expected, actual) {
+		t.Errorf("expected: %v, got: %v", expected, actual)
+	}
+}
+
 func TestMat3TimesVec2(t *testing.T) {
 	for _, c := range []struct {
 		mat    Mat3
@@ -33,12 +60,7 @@ func TestMat3TimesVec2(t *testing.T) {
 		bias   float32
 		result Vec3
 	}{
-		{
-			Mat3Identity(),
-			Vec2{1, 1},
-			1,
-			Vec3{1, 1, 1},
-		},
+		{ Mat3Identity(), Vec2{1, 1}, 1, Vec3{1, 1, 1}, },
 		{
 			Mat3{
 				1, 2, 3,
@@ -69,6 +91,8 @@ func TestMat3TimesVec2(t *testing.T) {
 			2,
 			Vec3{nan, nan, 0.004},
 		},
+        { Mat3Translation(Vec2{1, 2}), Vec2{3, 4}, 1, Vec3{4, 6, 1}, },
+        { Mat3Rotation(Angle90Deg), Vec2{2, 1}, 1, Vec3{-1, 2, 1}, },
 	} {
 		expected := c.result
 		actual := c.mat.TimesVec2(c.vec, c.bias)

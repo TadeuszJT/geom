@@ -8,7 +8,7 @@ type Ori2 struct {
 }
 
 func MakeOri2(pos Vec2, theta Angle) Ori2 {
-    return Ori2{pos.X, pos.Y, theta}
+	return Ori2{pos.X, pos.Y, theta}
 }
 
 func (o Ori2) Vec2() Vec2 {
@@ -20,7 +20,7 @@ func (o Ori2) Vec3() Vec3 {
 }
 
 func (o Ori2) ScaledBy(f float32) Ori2 {
-    return Ori2{o.X * f, o.Y * f, o.Theta * Angle(f)}
+	return Ori2{o.X * f, o.Y * f, o.Theta * Angle(f)}
 }
 
 func (a *Ori2) PlusEquals(b Ori2) {

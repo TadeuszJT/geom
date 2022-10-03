@@ -121,3 +121,24 @@ func TestOri2Convert(t *testing.T) {
         t.Errorf("expected: %v, got: %v", expected, actual)
     }
 }
+
+func TestOri2Times(t *testing.T) {
+	cases := []struct {
+		a, b, result Ori2[float64]
+	}{
+		{Ori2[float64]{}, Ori2[float64]{}, Ori2[float64]{}},
+		{Ori2[float64]{0, 0, 0}, Ori2[float64]{1, 2, 3}, Ori2[float64]{0, 0, 0}},
+		{Ori2[float64]{1, 0.2, 3}, Ori2[float64]{0.4, 5, 0.6}, Ori2[float64]{0.4, 1, 1.8}},
+		{Ori2[float64]{-1, -2, -3}, Ori2[float64]{4, 5, 6}, Ori2[float64]{-4, -10, -18}},
+		{Ori2[float64]{nan, pInf, nInf}, Ori2[float64]{-4, -5, -6}, Ori2[float64]{nan, nInf, pInf}},
+		{Ori2[float64]{nan, pInf, nInf}, Ori2[float64]{0, 0, 0}, Ori2[float64]{nan, nan, nan}},
+	}
+
+	for _, c := range cases {
+		expected := c.result
+		actual := c.a.Times(c.b)
+		if !ori2Identical(expected, actual) {
+			t.Errorf("expected: %v, actual: %v", expected, actual)
+		}
+	}
+}

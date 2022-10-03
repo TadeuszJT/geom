@@ -22,6 +22,10 @@ func (o Ori2[T]) Vec3() Vec3[T] {
 	return Vec3[T]{o.X, o.Y, o.Theta}
 }
 
+func (a Ori2[T]) Times(b Ori2[T]) Ori2[T] {
+	return Ori2[T]{a.X * b.X, a.Y * b.Y, a.Theta * b.Theta}
+}
+
 func (o Ori2[T]) ScaledBy(f T) Ori2[T] {
 	return Ori2[T]{o.X * f, o.Y * f, o.Theta * f}
 }

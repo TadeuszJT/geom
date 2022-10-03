@@ -60,7 +60,7 @@ func TestMat3TimesVec2(t *testing.T) {
 		bias   float64
 		result Vec3[float64]
 	}{
-		{ Mat3Identity[float64](), Vec2[float64]{1, 1}, 1, Vec3[float64]{1, 1, 1}, },
+		{Mat3Identity[float64](), Vec2[float64]{1, 1}, 1, Vec3[float64]{1, 1, 1}},
 		{
 			Mat3[float64]{
 				1, 2, 3,
@@ -91,8 +91,8 @@ func TestMat3TimesVec2(t *testing.T) {
 			2,
 			Vec3[float64]{nan, nan, 0.004},
 		},
-        { Mat3Translation(Vec2[float64]{1, 2}), Vec2[float64]{3, 4}, 1, Vec3[float64]{4, 6, 1}, },
-        { Mat3Rotation[float64](math.Pi / 2), Vec2[float64]{2, 1}, 1, Vec3[float64]{-1, 2, 1}, },
+		{Mat3Translation(Vec2[float64]{1, 2}), Vec2[float64]{3, 4}, 1, Vec3[float64]{4, 6, 1}},
+		{Mat3Rotation[float64](math.Pi / 2), Vec2[float64]{2, 1}, 1, Vec3[float64]{-1, 2, 1}},
 	} {
 		expected := c.result
 		actual := c.mat.TimesVec2(c.vec, c.bias)

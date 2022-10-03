@@ -187,9 +187,9 @@ func TestVec3Yaw(t *testing.T) {
 	}{
 		{Vec3[float64]{}, 0},
 		{Vec3[float64]{3, -32, 3}, float64(math.Pi / 4)},
-		{Vec3[float64]{3, -6, -3}, 3 * float64(math.Pi / 4)},
+		{Vec3[float64]{3, -6, -3}, 3 * float64(math.Pi/4)},
 		{Vec3[float64]{-3, -6, 3}, -float64(math.Pi / 4)},
-		{Vec3[float64]{-3, -3, -3}, -3 * float64(math.Pi / 4)},
+		{Vec3[float64]{-3, -3, -3}, -3 * float64(math.Pi/4)},
 		{Vec3[float64]{0, nInf, -3}, float64(math.Pi)},
 	}
 

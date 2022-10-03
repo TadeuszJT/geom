@@ -1,6 +1,5 @@
 package geom
 
-
 type Rect[T Num] struct {
 	Min, Max Vec2[T]
 }
@@ -46,7 +45,7 @@ func (r Rect[T]) Height() T {
 }
 
 func (r Rect[T]) Size() Vec2[T] {
-	return Vec2[T]{ r.Width(), r.Height(), }
+	return Vec2[T]{r.Width(), r.Height()}
 }
 
 func (r Rect[T]) Contains(v Vec2[T]) bool {

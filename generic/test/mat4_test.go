@@ -270,7 +270,7 @@ func TestMat4RotationY(t *testing.T) {
 			},
 		},
 		{
-			-3 * float64(math.Pi / 4),
+			-3 * float64(math.Pi/4),
 			Mat4[float64]{
 				-f707, 0, -f707, 0,
 				0, 1, 0, 0,
@@ -311,7 +311,7 @@ func TestMat4RotationZ(t *testing.T) {
 			},
 		},
 		{
-			-3 * float64(math.Pi / 4),
+			-3 * float64(math.Pi/4),
 			Mat4[float64]{
 				-f707, f707, 0, 0,
 				-f707, -f707, 0, 0,

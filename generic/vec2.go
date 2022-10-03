@@ -10,7 +10,7 @@ type Vec2[T Num] struct {
 }
 
 func Vec2Convert[A, B Num](v Vec2[A]) Vec2[B] {
-    return Vec2[B]{B(v.X), B(v.Y)}
+	return Vec2[B]{B(v.X), B(v.Y)}
 }
 
 func (v Vec2[T]) Ori2() Ori2[T] {

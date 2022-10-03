@@ -3,11 +3,11 @@ package geom
 import "math"
 
 type Ori2[T Num] struct {
-	X, Y, Theta  T
+	X, Y, Theta T
 }
 
 func Ori2Convert[A, B Num](a Ori2[A]) Ori2[B] {
-    return Ori2[B]{B(a.X), B(a.Y), B(a.Theta)}
+	return Ori2[B]{B(a.X), B(a.Y), B(a.Theta)}
 }
 
 func MakeOri2[T Num](pos Vec2[T], theta T) Ori2[T] {
@@ -24,6 +24,10 @@ func (o Ori2[T]) Vec3() Vec3[T] {
 
 func (a Ori2[T]) Times(b Ori2[T]) Ori2[T] {
 	return Ori2[T]{a.X * b.X, a.Y * b.Y, a.Theta * b.Theta}
+}
+
+func (a Ori2[T]) Dot(b Ori2[T]) T {
+	return a.X*b.X + a.Y*b.Y + a.Theta*b.Theta
 }
 
 func (o Ori2[T]) ScaledBy(f T) Ori2[T] {

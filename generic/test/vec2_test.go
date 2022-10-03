@@ -311,17 +311,16 @@ func TestVec2Cross(t *testing.T) {
 }
 
 func TestVec2Convert(t *testing.T) {
-    var a Vec2[float32]
-    var b Vec2[float64]
+	var a Vec2[float32]
+	var b Vec2[float64]
 
-    a = Vec2[float32]{1.2, 2.3}
-    b = Vec2Convert[float32, float64](a)
+	a = Vec2[float32]{1.2, 2.3}
+	b = Vec2Convert[float32, float64](a)
 
+	expected := Vec2[float64]{1.2, 2.3}
+	actual := b
 
-    expected := Vec2[float64]{1.2, 2.3}
-    actual := b
-
-    if !vec2Identical(expected, actual) {
-        t.Errorf("expected: %v, got: %v", expected, actual)
-    }
+	if !vec2Identical(expected, actual) {
+		t.Errorf("expected: %v, got: %v", expected, actual)
+	}
 }

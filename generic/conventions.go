@@ -1,7 +1,7 @@
 package geom
 
 type Num interface {
-    ~float32 | ~float64
+	~float32 | ~float64
 }
 
 /*

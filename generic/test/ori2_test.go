@@ -107,19 +107,18 @@ func TestOri2Vec3(t *testing.T) {
 }
 
 func TestOri2Convert(t *testing.T) {
-    var a Ori2[float32]
-    var b Ori2[float64]
+	var a Ori2[float32]
+	var b Ori2[float64]
 
-    a = Ori2[float32]{1.2, 2.3, 3.4}
-    b = Ori2Convert[float32, float64](a)
+	a = Ori2[float32]{1.2, 2.3, 3.4}
+	b = Ori2Convert[float32, float64](a)
 
+	expected := Ori2[float64]{1.2, 2.3, 3.4}
+	actual := b
 
-    expected := Ori2[float64]{1.2, 2.3, 3.4}
-    actual := b
-
-    if !ori2Identical(expected, actual) {
-        t.Errorf("expected: %v, got: %v", expected, actual)
-    }
+	if !ori2Identical(expected, actual) {
+		t.Errorf("expected: %v, got: %v", expected, actual)
+	}
 }
 
 func TestOri2Times(t *testing.T) {
@@ -138,6 +137,25 @@ func TestOri2Times(t *testing.T) {
 		expected := c.result
 		actual := c.a.Times(c.b)
 		if !ori2Identical(expected, actual) {
+			t.Errorf("expected: %v, actual: %v", expected, actual)
+		}
+	}
+}
+
+func TestOri2Dot(t *testing.T) {
+	cases := []struct {
+		a, b   Ori2[float64]
+		result float64
+	}{
+		{Ori2[float64]{}, Ori2[float64]{}, 0},
+		{Ori2[float64]{1, 2, 3}, Ori2[float64]{4, 3, -2}, 4},
+		{Ori2[float64]{1, 2, 3}, Ori2[float64]{-1, -2, -3}, -14},
+	}
+
+	for _, c := range cases {
+		expected := c.result
+		actual := c.a.Dot(c.b)
+		if !floatIdentical(expected, actual) {
 			t.Errorf("expected: %v, actual: %v", expected, actual)
 		}
 	}

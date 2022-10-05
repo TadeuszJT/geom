@@ -221,13 +221,13 @@ func TestRectVerts(t *testing.T) {
 }
 
 func TestRectConvert(t *testing.T) {
-    a := Rect[float32]{Vec2[float32]{1, 2}, Vec2[float32]{3, 4}}
-    b := RectConvert[float32, float64](a)
+	a := Rect[float32]{Vec2[float32]{1, 2}, Vec2[float32]{3, 4}}
+	b := RectConvert[float32, float64](a)
 
-    expected := Rect[float64]{Vec2[float64]{1, 2}, Vec2[float64]{3, 4}}
-    actual := b
+	expected := Rect[float64]{Vec2[float64]{1, 2}, Vec2[float64]{3, 4}}
+	actual := b
 
-    if !rectIdentical(expected, actual) {
-        t.Errorf("expected: %v, got: %v", expected, actual)
-    }
+	if !rectIdentical(expected, actual) {
+		t.Errorf("expected: %v, got: %v", expected, actual)
+	}
 }

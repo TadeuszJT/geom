@@ -310,6 +310,31 @@ func TestVec2Cross(t *testing.T) {
 	}
 }
 
+func TestVec2Dot(t *testing.T) {
+	cases := []struct {
+		a, b   Vec2[float64]
+		result float64
+	}{
+		{Vec2[float64]{}, Vec2[float64]{}, 0},
+		{Vec2[float64]{1, 0}, Vec2[float64]{0, 1}, 0},
+		{Vec2[float64]{2, 0}, Vec2[float64]{0, 1}, 0},
+		{Vec2[float64]{1, 0}, Vec2[float64]{1, 0}, 1},
+		{Vec2[float64]{-1, 0}, Vec2[float64]{1, 0}, -1},
+		{Vec2[float64]{1, 0}, Vec2[float64]{1, 1}, 1},
+		{Vec2[float64]{-1, 0}, Vec2[float64]{1, -1}, -1},
+		{Vec2[float64]{4, 0}, Vec2[float64]{5, 5}, 20},
+		{Vec2[float64]{4, -2}, Vec2[float64]{3, 7}, 12 - 14},
+	}
+
+	for _, c := range cases {
+		expected := c.result
+		actual := c.a.Dot(c.b)
+		if !floatIdentical(expected, actual) {
+			t.Errorf("expected: %v, got: %v", expected, actual)
+		}
+	}
+}
+
 func TestVec2Convert(t *testing.T) {
 	var a Vec2[float32]
 	var b Vec2[float64]

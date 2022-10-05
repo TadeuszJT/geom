@@ -25,6 +25,10 @@ func (a Vec2[T]) Minus(b Vec2[T]) Vec2[T] {
 	return Vec2[T]{a.X - b.X, a.Y - b.Y}
 }
 
+func (a Vec2[T]) Dot(b Vec2[T]) T {
+	return a.X*b.X + a.Y*b.Y
+}
+
 func (a Vec2[T]) Cross(b Vec2[T]) T {
 	return a.X*b.Y - a.Y*b.X
 }

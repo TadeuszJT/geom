@@ -14,6 +14,14 @@ func Mat3Identity[T Num]() Mat3[T] {
 	}
 }
 
+func Mat3Scalar[T Num](x, y T) Mat3[T] {
+	return Mat3[T]{
+		x, 0, 0,
+		0, y, 0,
+		0, 0, 1,
+	}
+}
+
 func Mat3Translation[T Num](v Vec2[T]) Mat3[T] {
 	return Mat3[T]{
 		1, 0, v.X,

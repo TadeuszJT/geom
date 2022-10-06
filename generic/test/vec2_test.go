@@ -335,6 +335,27 @@ func TestVec2Dot(t *testing.T) {
 	}
 }
 
+func TestVec2Perpendicular(t *testing.T) {
+	cases := []struct {
+		v   Vec2[float64]
+		result Vec2[float64]
+	}{
+		{Vec2[float64]{}, Vec2[float64]{}},
+		{Vec2[float64]{1, 0}, Vec2[float64]{0, 1}},
+		{Vec2[float64]{1, 1}, Vec2[float64]{-1, 1}},
+		{Vec2[float64]{-2, 1}, Vec2[float64]{-1, -2}},
+		{Vec2[float64]{2, pInf}, Vec2[float64]{nInf, 2}},
+	}
+
+	for _, c := range cases {
+		expected := c.result
+		actual := c.v.Perpendicular()
+		if !vec2Identical(expected, actual) {
+			t.Errorf("expected: %v, got: %v", expected, actual)
+		}
+	}
+}
+
 func TestVec2Convert(t *testing.T) {
 	var a Vec2[float32]
 	var b Vec2[float64]

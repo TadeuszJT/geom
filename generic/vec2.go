@@ -17,6 +17,10 @@ func (v Vec2[T]) Ori2() Ori2[T] {
 	return Ori2[T]{v.X, v.Y, 0}
 }
 
+func (v Vec2[T]) Perpendicular() Vec2[T] {
+    return Vec2[T]{-v.Y, v.X}
+}
+
 func (a Vec2[T]) Plus(b Vec2[T]) Vec2[T] {
 	return Vec2[T]{a.X + b.X, a.Y + b.Y}
 }

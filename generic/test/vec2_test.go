@@ -337,7 +337,7 @@ func TestVec2Dot(t *testing.T) {
 
 func TestVec2Perpendicular(t *testing.T) {
 	cases := []struct {
-		v   Vec2[float64]
+		v      Vec2[float64]
 		result Vec2[float64]
 	}{
 		{Vec2[float64]{}, Vec2[float64]{}},

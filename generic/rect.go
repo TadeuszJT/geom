@@ -37,10 +37,10 @@ func MakeRect[T Num](x, y, w, h T) Rect[T] {
 }
 
 func RectConvert[A, B Num](a Rect[A]) Rect[B] {
-    return Rect[B]{
-        Vec2Convert[A, B](a.Min),
-        Vec2Convert[A, B](a.Max),
-    }
+	return Rect[B]{
+		Vec2Convert[A, B](a.Min),
+		Vec2Convert[A, B](a.Max),
+	}
 }
 
 func (r Rect[T]) Width() T {

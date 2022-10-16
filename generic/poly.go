@@ -1,34 +1,63 @@
 package geom
 
+type Poly[T Num] []Vec2[T]
+
+func (poly Poly[T]) Contains(v Vec2[T]) bool {
+	if len(poly) < 2 {
+		panic("must have at least two verts")
+	}
+
+	j := len(poly) - 1
+	c := false
+
+	for i := range poly {
+		if poly[i] == v { // point is a corner
+			return true
+		}
+		if (poly[i].Y > v.Y) != (poly[j].Y > v.Y) {
+			slope := (v.X-poly[i].X)*(poly[j].Y-poly[i].Y) - (poly[j].X-poly[i].X)*(v.Y-poly[i].Y)
+			if slope == 0.0 { // point is on a boundary
+				return true
+			}
+			if (slope < 0.0) != (poly[j].Y < poly[i].Y) {
+				c = !c
+			}
+		}
+		j = i
+	}
+
+	return c
+}
+
 /* verts must be in order clockwise */
-func PolyArea[T Num](verts []Vec2[T]) T {
-	if len(verts) < 2 {
+func PolyArea[T Num](poly Poly[T]) T {
+	if len(poly) < 2 {
 		panic("must have at least two verts")
 	}
 
 	var sum T = 0
-	for i := range verts {
-		if i == (len(verts) - 1) {
-			sum += verts[i].X*verts[0].Y - verts[0].X*verts[i].Y
+	for i := range poly {
+		if i == (len(poly) - 1) {
+			sum += poly[i].X*poly[0].Y - poly[0].X*poly[i].Y
 		} else {
-			sum += verts[i].X*verts[i+1].Y - verts[i+1].X*verts[i].Y
+			sum += poly[i].X*poly[i+1].Y - poly[i+1].X*poly[i].Y
 		}
 	}
 	return sum * 0.5
 }
 
-func PolyCentroid[T Num](verts []Vec2[T]) Vec2[T] {
-	area := PolyArea(verts) // panic if len(verts) < 2
+func PolyCentroid[T Num](poly Poly[T]) Vec2[T] {
+	area := PolyArea(poly) // panic if len(poly) < 2
 	if area <= 0.0 {
 		panic("area is 0.0")
 	}
 
 	var centroid Vec2[T]
-	for i := range verts {
-		pn := verts[i]
-		pn1 := verts[0]
-		if i < (len(verts) - 1) {
-			pn1 = verts[i+1]
+	for i := range poly {
+		pn := poly[i]
+		pn1 := poly[0]
+		if i < (len(poly) - 1) {
+			pn1 = poly[i+1]
 		}
 
 		centroid = centroid.Plus(pn.Plus(pn1).ScaledBy(pn.Cross(pn1)))
@@ -39,18 +68,18 @@ func PolyCentroid[T Num](verts []Vec2[T]) Vec2[T] {
 	return centroid
 }
 
-func PolyMomentOfInertia[T Num](verts []Vec2[T]) T {
-	mass := PolyArea(verts) // panic if len(verts) < 2
+func PolyMomentOfInertia[T Num](poly Poly[T]) T {
+	mass := PolyArea(poly) // panic if len(poly) < 2
 	if mass <= 0.0 {
 		panic("area is 0.0")
 	}
 
 	var numerator, denominator T
-	for i := range verts {
-		pn := verts[i]
-		pn1 := verts[0]
-		if i < (len(verts) - 1) {
-			pn1 = verts[i+1]
+	for i := range poly {
+		pn := poly[i]
+		pn1 := poly[0]
+		if i < (len(poly) - 1) {
+			pn1 = poly[i+1]
 		}
 
 		numerator += pn.Cross(pn1) * (pn.Dot(pn) + pn.Dot(pn1) + pn1.Dot(pn1))

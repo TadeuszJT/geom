@@ -57,12 +57,12 @@ func TestPolyCentroid(t *testing.T) {
 
 func TestPolyMomentOfInertia(t *testing.T) {
 	cases := []struct {
-		verts    []geom.Vec2[float64]
-		moi float64
+		verts []geom.Vec2[float64]
+		moi   float64
 	}{
 		{
 			[]geom.Vec2[float64]{{2, -1.5}, {2, 1.5}, {-2, 1.5}, {-2, -1.5}},
-			(1. / 12.) * (4*3) * (4*4+3*3),
+			(1. / 12.) * (4 * 3) * (4*4 + 3*3),
 		},
 	}
 
@@ -71,6 +71,64 @@ func TestPolyMomentOfInertia(t *testing.T) {
 		actual := geom.PolyMomentOfInertia(c.verts)
 
 		if !floatIdentical(expected, actual) {
+			t.Errorf("expected: %v, actual: %v", expected, actual)
+		}
+	}
+}
+
+func TestPolyContains(t *testing.T) {
+	cases := []struct {
+		poly   geom.Poly[float64]
+		point  geom.Vec2[float64]
+		result bool
+	}{
+		{
+			geom.Poly[float64]{{0, 0}, {1, 0}, {1, 1}, {0, 1}},
+			geom.Vec2[float64]{0.5, 0.5},
+			true,
+		},
+		{
+			geom.Poly[float64]{{0, 0}, {1, 0}, {1, 1}, {0, 1}},
+			geom.Vec2[float64]{1.0001, 0.5},
+			false,
+		},
+		{
+			geom.Poly[float64]{{0, 0}, {1, 0}, {0, 1}},
+			geom.Vec2[float64]{0.5, 0.5},
+			true,
+		},
+		{
+			geom.Poly[float64]{{0, 0}, {1, 0}, {1, -1}, {2, 2}},
+			geom.Vec2[float64]{0.5, 0},
+			true,
+		},
+		{
+			geom.Poly[float64]{{0, 0}, {1, 0}, {1, -1}, {2, 2}},
+			geom.Vec2[float64]{0.5, -0.00001},
+			false,
+		},
+		{
+			geom.Poly[float64]{{0, 0}, {1, 0}, {1, -1}, {2, 2}},
+			geom.Vec2[float64]{1, 0},
+			true,
+		},
+		{
+			geom.Poly[float64]{{0, 0}, {1, 0}, {1, -1}, {2, 2}},
+			geom.Vec2[float64]{0.9999, -0.5},
+			false,
+		},
+		{
+			geom.Poly[float64]{{0, 0}, {1, 0}, {1, -1}, {2, 2}},
+			geom.Vec2[float64]{1, -0.5},
+			true,
+		},
+	}
+
+	for _, c := range cases {
+		expected := c.result
+		actual := c.poly.Contains(c.point)
+
+		if expected != actual {
 			t.Errorf("expected: %v, actual: %v", expected, actual)
 		}
 	}

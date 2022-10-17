@@ -42,7 +42,7 @@ func (poly Poly[T]) Contains(v Vec2[T]) bool {
 }
 
 /* verts must be in order clockwise */
-func PolyArea[T Num](poly Poly[T]) T {
+func (poly Poly[T]) Area() T {
 	if len(poly) < 2 {
 		panic("must have at least two verts")
 	}
@@ -58,8 +58,8 @@ func PolyArea[T Num](poly Poly[T]) T {
 	return sum * 0.5
 }
 
-func PolyCentroid[T Num](poly Poly[T]) Vec2[T] {
-	area := PolyArea(poly) // panic if len(poly) < 2
+func (poly Poly[T]) Centroid() Vec2[T] {
+	area := poly.Area() // panic if len(poly) < 2
 	if area <= 0.0 {
 		panic("area is 0.0")
 	}
@@ -80,8 +80,8 @@ func PolyCentroid[T Num](poly Poly[T]) Vec2[T] {
 	return centroid
 }
 
-func PolyMomentOfInertia[T Num](poly Poly[T]) T {
-	mass := PolyArea(poly) // panic if len(poly) < 2
+func (poly Poly[T]) MomentOfInertia() T {
+	mass := poly.Area() // panic if len(poly) < 2
 	if mass <= 0.0 {
 		panic("area is 0.0")
 	}

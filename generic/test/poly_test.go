@@ -72,8 +72,8 @@ func TestPolyCopy(t *testing.T) {
 
 func TestPolyArea(t *testing.T) {
 	cases := []struct {
-		verts []geom.Vec2[float64]
-		area  float64
+		poly geom.Poly[float64]
+		area float64
 	}{
 		{[]geom.Vec2[float64]{{0, 0}, {1, 0}, {1, 1}, {0, 1}}, 1.0},
 		{[]geom.Vec2[float64]{{0, 0}, {1, 0}, {1, 1}}, 0.5},
@@ -86,7 +86,7 @@ func TestPolyArea(t *testing.T) {
 
 	for _, c := range cases {
 		expected := c.area
-		actual := geom.PolyArea(c.verts)
+		actual := c.poly.Area()
 
 		if !floatIdentical(expected, actual) {
 			t.Errorf("expected: %v, actual: %v", expected, actual)
@@ -96,7 +96,7 @@ func TestPolyArea(t *testing.T) {
 
 func TestPolyCentroid(t *testing.T) {
 	cases := []struct {
-		verts    []geom.Vec2[float64]
+		poly     geom.Poly[float64]
 		centroid geom.Vec2[float64]
 	}{
 		{
@@ -111,7 +111,7 @@ func TestPolyCentroid(t *testing.T) {
 
 	for _, c := range cases {
 		expected := c.centroid
-		actual := geom.PolyCentroid(c.verts)
+		actual := c.poly.Centroid()
 
 		if !vec2Identical(expected, actual) {
 			t.Errorf("expected: %v, actual: %v", expected, actual)
@@ -121,8 +121,8 @@ func TestPolyCentroid(t *testing.T) {
 
 func TestPolyMomentOfInertia(t *testing.T) {
 	cases := []struct {
-		verts []geom.Vec2[float64]
-		moi   float64
+		poly geom.Poly[float64]
+		moi  float64
 	}{
 		{
 			[]geom.Vec2[float64]{{2, -1.5}, {2, 1.5}, {-2, 1.5}, {-2, -1.5}},
@@ -132,7 +132,7 @@ func TestPolyMomentOfInertia(t *testing.T) {
 
 	for _, c := range cases {
 		expected := c.moi
-		actual := geom.PolyMomentOfInertia(c.verts)
+		actual := c.poly.MomentOfInertia()
 
 		if !floatIdentical(expected, actual) {
 			t.Errorf("expected: %v, actual: %v", expected, actual)

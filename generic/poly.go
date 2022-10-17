@@ -2,6 +2,18 @@ package geom
 
 type Poly[T Num] []Vec2[T]
 
+func PolyCopy[T Num](poly Poly[T]) Poly[T] {
+	return append(Poly[T]{}, poly...)
+}
+
+func PolyConvert[A, B Num](a Poly[A]) Poly[B] {
+	b := Poly[B]{}
+	for i := range a {
+		b = append(b, Vec2Convert[A, B](a[i]))
+	}
+	return b
+}
+
 func (poly Poly[T]) Contains(v Vec2[T]) bool {
 	if len(poly) < 2 {
 		panic("must have at least two verts")

@@ -6,6 +6,70 @@ import (
 	"testing"
 )
 
+func polyIdentical(a, b geom.Poly[float64]) bool {
+	if len(a) != len(b) {
+		return false
+	}
+	for i := range a {
+		if !vec2Identical(a[i], b[i]) {
+			return false
+		}
+	}
+	return true
+}
+
+func TestPolyConvert(t *testing.T) {
+	a := geom.Poly[float32]{
+		{1, 2},
+		{0.001, 0},
+		{3, -5.7},
+	}
+
+	expected := geom.Poly[float64]{
+		{1, 2},
+		{0.001, 0},
+		{3, -5.7},
+	}
+
+	actual := geom.PolyConvert[float32, float64](a)
+
+	if !polyIdentical(expected, actual) {
+		t.Errorf("expected: %v, actual: %v", expected, actual)
+	}
+}
+
+func TestPolyCopy(t *testing.T) {
+	cases := []struct {
+		poly   geom.Poly[float64]
+		result geom.Poly[float64]
+	}{
+		{
+			[]geom.Vec2[float64]{},
+			[]geom.Vec2[float64]{},
+		},
+		{
+			[]geom.Vec2[float64]{{1, 2}},
+			[]geom.Vec2[float64]{{1, 2}},
+		},
+		{
+			[]geom.Vec2[float64]{{1, 2}, {3.4, 5.6}},
+			[]geom.Vec2[float64]{{1, 2}, {3.4, 5.6}},
+		},
+	}
+
+	for _, c := range cases {
+		expected := c.result
+		actual := geom.PolyCopy(c.poly)
+
+		if !polyIdentical(expected, actual) {
+			t.Errorf("expected: %v, actual: %v", expected, actual)
+		}
+		if len(expected) > 0 && &expected[0] == &actual[0] {
+			t.Errorf("didn't copy, same pointer.")
+		}
+	}
+}
+
 func TestPolyArea(t *testing.T) {
 	cases := []struct {
 		verts []geom.Vec2[float64]

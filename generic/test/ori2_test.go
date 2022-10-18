@@ -41,6 +41,31 @@ func TestVec2(t *testing.T) {
 	}
 }
 
+func TestClampTheta(t *testing.T) {
+	cases := []struct {
+		o Ori2[float64]
+		r Ori2[float64]
+	}{
+		{Ori2[float64]{0, 0, 0}, Ori2[float64]{0, 0, 0}},
+		{Ori2[float64]{0, 0, 2*math.Pi - 0.001}, Ori2[float64]{0, 0, 2*math.Pi - 0.001}},
+		{Ori2[float64]{0, 0, 2 * math.Pi}, Ori2[float64]{0, 0, 0}},
+		{Ori2[float64]{0, 0, -1}, Ori2[float64]{0, 0, 2*math.Pi - 1}},
+		{Ori2[float64]{0, 0, -2 * math.Pi}, Ori2[float64]{0, 0, 0}},
+		{Ori2[float64]{0, 0, -2*math.Pi - 1}, Ori2[float64]{0, 0, 2*math.Pi - 1}},
+		{Ori2[float64]{0, 0, 39 * math.Pi}, Ori2[float64]{0, 0, math.Pi}},
+		{Ori2[float64]{0, 0, -39 * math.Pi}, Ori2[float64]{0, 0, math.Pi}},
+	}
+
+	for _, c := range cases {
+		expected := c.r
+		c.o.ClampTheta()
+		actual := c.o
+		if !ori2Identical(expected, actual) {
+			t.Errorf("expected: %v, actual: %v", expected, actual)
+		}
+	}
+}
+
 func TestOri2PlusEquals(t *testing.T) {
 	cases := []struct {
 		v, b, result Ori2[float64]
@@ -67,20 +92,20 @@ func TestOri2Mat3Transform(t *testing.T) {
 	cases := []struct {
 		o      Ori2[float64]
 		v      Vec2[float64]
-		result Vec3[float64]
+		result Vec2[float64]
 	}{
-		{Ori2[float64]{}, Vec2[float64]{}, Vec3[float64]{0, 0, 1}},
-		{Ori2[float64]{1, 2, 0}, Vec2[float64]{0, 0}, Vec3[float64]{1, 2, 1}},
-		{Ori2[float64]{1, 2, 0}, Vec2[float64]{3, 4}, Vec3[float64]{4, 6, 1}},
-		{Ori2[float64]{3, 4, math.Pi / 2}, Vec2[float64]{1, 2}, Vec3[float64]{1, 5, 1}},
-		{Ori2[float64]{3, 4, -math.Pi / 2}, Vec2[float64]{1, 2}, Vec3[float64]{5, 3, 1}},
-		{Ori2[float64]{-2, 8, math.Pi}, Vec2[float64]{3, -2}, Vec3[float64]{-5, 10, 1}},
+		{Ori2[float64]{}, Vec2[float64]{}, Vec2[float64]{0, 0}},
+		{Ori2[float64]{1, 2, 0}, Vec2[float64]{0, 0}, Vec2[float64]{1, 2}},
+		{Ori2[float64]{1, 2, 0}, Vec2[float64]{3, 4}, Vec2[float64]{4, 6}},
+		{Ori2[float64]{3, 4, math.Pi / 2}, Vec2[float64]{1, 2}, Vec2[float64]{1, 5}},
+		{Ori2[float64]{3, 4, -math.Pi / 2}, Vec2[float64]{1, 2}, Vec2[float64]{5, 3}},
+		{Ori2[float64]{-2, 8, math.Pi}, Vec2[float64]{3, -2}, Vec2[float64]{-5, 10}},
 	}
 
 	for _, c := range cases {
 		expected := c.result
 		actual := c.o.Mat3Transform().TimesVec2(c.v, 1)
-		if !vec3Identical(expected, actual) {
+		if !vec2Identical(expected, actual) {
 			t.Errorf("expected: %v, actual: %v", expected, actual)
 		}
 	}

@@ -56,11 +56,10 @@ func (a Mat3[T]) Product(b Mat3[T]) Mat3[T] {
 	}
 }
 
-func (m Mat3[T]) TimesVec2(v Vec2[T], bias T) Vec3[T] {
-	return Vec3[T]{
+func (m Mat3[T]) TimesVec2(v Vec2[T], bias T) Vec2[T] {
+	return Vec2[T]{
 		X: m[0]*v.X + m[1]*v.Y + m[2]*bias,
 		Y: m[3]*v.X + m[4]*v.Y + m[5]*bias,
-		Z: m[6]*v.X + m[7]*v.Y + m[8]*bias,
 	}
 }
 

@@ -10,8 +10,11 @@ func Ori2Convert[A, B Num](a Ori2[A]) Ori2[B] {
 	return Ori2[B]{B(a.X), B(a.Y), B(a.Theta)}
 }
 
-func MakeOri2[T Num](pos Vec2[T], theta T) Ori2[T] {
-	return Ori2[T]{pos.X, pos.Y, theta}
+func (o *Ori2[T]) ClampTheta() {
+	o.Theta = T(math.Mod(float64(o.Theta), 2*math.Pi))
+	if o.Theta < 0 {
+		o.Theta += T(2 * math.Pi)
+	}
 }
 
 func (o Ori2[T]) Vec2() Vec2[T] {

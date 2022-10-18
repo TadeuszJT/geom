@@ -58,9 +58,9 @@ func TestMat3TimesVec2(t *testing.T) {
 		mat    Mat3[float64]
 		vec    Vec2[float64]
 		bias   float64
-		result Vec3[float64]
+		result Vec2[float64]
 	}{
-		{Mat3Identity[float64](), Vec2[float64]{1, 1}, 1, Vec3[float64]{1, 1, 1}},
+		{Mat3Identity[float64](), Vec2[float64]{1, 1}, 1, Vec2[float64]{1, 1}},
 		{
 			Mat3[float64]{
 				1, 2, 3,
@@ -69,7 +69,7 @@ func TestMat3TimesVec2(t *testing.T) {
 			},
 			Vec2[float64]{10, 11},
 			1,
-			Vec3[float64]{35, 101, 167},
+			Vec2[float64]{35, 101},
 		},
 		{
 			Mat3[float64]{
@@ -79,7 +79,7 @@ func TestMat3TimesVec2(t *testing.T) {
 			},
 			Vec2[float64]{-1, -2},
 			-3,
-			Vec3[float64]{nInf, 55, nan},
+			Vec2[float64]{nInf, 55},
 		},
 		{
 			Mat3[float64]{
@@ -89,14 +89,14 @@ func TestMat3TimesVec2(t *testing.T) {
 			},
 			Vec2[float64]{0, 1},
 			2,
-			Vec3[float64]{nan, nan, 0.004},
+			Vec2[float64]{nan, nan},
 		},
-		{Mat3Translation(Vec2[float64]{1, 2}), Vec2[float64]{3, 4}, 1, Vec3[float64]{4, 6, 1}},
-		{Mat3Rotation[float64](math.Pi / 2), Vec2[float64]{2, 1}, 1, Vec3[float64]{-1, 2, 1}},
+		{Mat3Translation(Vec2[float64]{1, 2}), Vec2[float64]{3, 4}, 1, Vec2[float64]{4, 6}},
+		{Mat3Rotation[float64](math.Pi / 2), Vec2[float64]{2, 1}, 1, Vec2[float64]{-1, 2}},
 	} {
 		expected := c.result
 		actual := c.mat.TimesVec2(c.vec, c.bias)
-		if !vec3Identical(expected, actual) {
+		if !vec2Identical(expected, actual) {
 			t.Errorf("expected: %v, got: %v", expected, actual)
 		}
 	}
@@ -124,7 +124,7 @@ func TestMat3Camera2D(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		actual := mat.TimesVec2(c.point, 1).Vec2()
+		actual := mat.TimesVec2(c.point, 1)
 		expected := c.result
 		if !vec2Identical(expected, actual) {
 			t.Errorf("point: %v: expected: %v, got: %v", c.point, expected, actual)
